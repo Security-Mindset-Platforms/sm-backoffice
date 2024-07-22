@@ -46,7 +46,7 @@
             "allowedCommonJsDependencies": [
               "dragula","can-use-dom","moment","leaflet","filepond","dropzone","apexcharts","sweetalert"
             ],
-            "outputPath": "dist/smhub",
+            "outputPath": "dist/smbackoffice",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
