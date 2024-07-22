@@ -9,7 +9,7 @@ LABEL version="1.0"
 COPY nginx.conf /etc/nginx/nginx.conf
 
 WORKDIR /usr/share/nginx/html
-COPY --from=builder /usr/src/app/dist/smhub/browser .
+COPY --from=builder /usr/src/app/dist/smbackoffice/browser .
 
 EXPOSE 80
 

@@ -3,7 +3,7 @@
   "compileOnSave": false,
   "suppressImplicitAnyIndexErrors": true,
   "compilerOptions": {
-    "outDir": "./dist/smihm",
+    "outDir": "./dist/smbackoffice",
     "strict": false, // Disable all strict type-checking options
     "noImplicitAny": false, // Allow expressions and declarations to have 'any' type
     "strictNullChecks": false, // Disable strict null checks
