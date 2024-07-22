@@ -1,0 +1,54 @@
+name: Deploy SM IHM 
+on:
+  push:
+    branches: [main, feature/testapi]
+jobs:
+  build:
+    name: Build and Publish to Github Packages Registry
+    runs-on: ubuntu-latest
+    steps:
+    - name: Get latest code
+      uses: actions/checkout@v2.3.2
+    - name: Use Node.js 14 LTS
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.19'
+    - name: Install NPM Modules
+      run: npm install
+    - name: install angular cli
+      run:  npm install -g @angular/cli
+    #- name: Sonar scan
+     # uses: sonarsource/sonarqube-scan-action@master
+      #env:
+       # SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        #SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+    - name: Build Project
+      run:  ng build --configuration production
+    - name: Build and Publish API to Github Packages Registry
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+          name: sm-appsec/smhub:0.1
+          registry: ghcr.io
+          username: ${{secrets.REGISTRY_USER_NAME}}
+          password: ${{secrets.REGISTRY_PWD }}
+          dockerfile: Dockerfile
+  deploy:
+    name: Pull and deploy to VPS server
+    runs-on: ubuntu-latest
+    needs: [build]
+    container: node:14
+    steps:
+    - name: Deploy package to OVH VPS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        port: ${{ secrets.PORT }}
+        username: ${{ secrets.HOST_USER }}
+        key: ${{ secrets.PRIVATE_KEY }}
+        script: |
+            sudo docker login ${{secrets.REGISTRY_URL}} -u ${{secrets.REGISTRY_USER_NAME}} -p ${{ secrets. REGISTRY_PWD }}
+            sudo docker pull ghcr.io/sm-appsec/smhub:0.1
+            sudo docker stop sm-appsec-container
+            sudo docker system prune -f
+            sudo docker run --name sm-appsec-container  -dit -p 127.0.0.1:8887:80 ghcr.io/sm-appsec/smhub:0.1
+

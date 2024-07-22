@@ -1,0 +1,23 @@
+{
+  "language": {
+    "fr": "French",
+    "en": "English"
+  },
+  "page": {
+    "login": {
+      "usernameLabel": "Your email",
+      "passwordLabel": "Your password",
+      "forgotPasswordText": "Forgot your password ?",
+      "submitLoginButton": "Login"
+    },
+    "dashboard": {
+      "welcomeTitle": "Hello {{firstName}}",
+      "welcomeDescripton": "Be the Security evangelist within your teams",
+      "filterButton": "Filter",
+      "exportButton": "Export"
+    }
+  },
+  "userInfo": {
+    "jobTitle": "DevSecOps engineer"
+  }
+}

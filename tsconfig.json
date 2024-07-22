@@ -1,0 +1,42 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "suppressImplicitAnyIndexErrors": true,
+  "compilerOptions": {
+    "outDir": "./dist/smihm",
+    "strict": false, // Disable all strict type-checking options
+    "noImplicitAny": false, // Allow expressions and declarations to have 'any' type
+    "strictNullChecks": false, // Disable strict null checks
+    "strictFunctionTypes": false, // Disable strict checking of function types
+    "strictBindCallApply": false, // Disable strict checking of 'bind', 'call', and 'apply' methods
+    "noImplicitReturns": false, // Allow functions without explicit return statements
+    "noImplicitThis": false, // Allow 'this' expressions with an implicit 'any' type
+    "alwaysStrict": false, // Do not enforce strict mode for JavaScript files
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "declaration": false,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true,
+    "skipLibCheck": true
+  }
+}

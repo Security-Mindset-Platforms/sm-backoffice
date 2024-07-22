@@ -1,0 +1,23 @@
+{
+  "language": {
+    "fr": "Français",
+    "en": "Anglais"
+  },
+  "page": {
+    "login": {
+      "usernameLabel": "Votre email",
+      "passwordLabel": "Votre mot de passe",
+      "forgotPasswordText": "Mot de passe oublié ?",
+      "submitLoginButton": "Connexion"
+    },
+    "dashboard": {
+      "welcomeTitle": "Bonjour {{firstName}}",
+      "welcomeDescripton": "Soyez l’évangéliste de la sécurité au sein de vos équipes",
+      "filterButton": "Filtrer",
+      "exportButton": "Exporter"
+    }
+  },
+  "userInfo": {
+    "jobTitle": "Ingénieur DevSecOps"
+  }
+}
