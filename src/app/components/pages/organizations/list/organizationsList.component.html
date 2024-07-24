@@ -1,0 +1,63 @@
+<app-page-header [title]="'Security Hub'" [activeTitle]="'Organizations'" [title1]="'List'"></app-page-header>
+
+
+                <!-- Start::row-1 -->
+                <div class="grid grid-cols-12 gap-6">
+                    <div class="xl:col-span-12 col-span-12">
+                        <div class="box custom-box">
+                            <div class="box-body p-4">
+                                <div class="flex items-center justify-between flex-wrap gap-4">
+                                    <div class="flex flex-wrap gap-1 newproject">
+                                        <a routerLink="/organizations/create"class="ti-btn ti-btn-primary-full me-2 !mb-0"><i class="ri-add-line me-1 font-semibold align-middle"></i>Add organization</a>                                        
+                                    </div>
+                                  
+                                    <div class="flex" role="search">
+                                        <input class="form-control me-2" type="search" placeholder="Search organiation" aria-label="Search">
+                                        <button class="ti-btn ti-btn-light !mb-0" type="submit">Search</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End::row-1 -->
+
+                <!-- Start::row-2 -->
+                <div class="grid grid-cols-12 gap-x-6">
+                            <div *ngFor="let p of organizations; let i = index;" class="xxl:col-span-3 xl:col-span-3 md:col-span-4 col-span-12" >
+                                <div class="box custom-box">
+                                    <div class="box-header items-center !justify-start flex-wrap !flex">
+                                        <div class="me-2 text-center">
+                                            <div class="font-semibold mb-1"><strong>{{ p.name }} ( {{p.realm}})</strong></div>
+                                        </div>
+                                    </div>
+                                    <div class="box-body" [routerLink]="['../organizations', p.id]">
+                                        <p class="text-[#8c9097] dark:text-white/50 mb-3"> 
+                                           <strong>Organization's ID:</strong>  {{p.id}}
+                                        </p>
+                                        <i (click)="deleteOrganization(p.id, i)" class="fa fa-trash fa-2x" aria-hidden="true"></i>
+
+                                    </div>
+                                </div>
+                            </div>
+                    
+                </div>
+                <!--End::row-2 -->
+                @if(organizations.length <=0) {
+                <div class="empty-list-container"  >
+                    <img src="assets/images/cloud-application.png" alt="Empty List Image" class="empty-list-image" width="100px">
+                    <p class="empty-list-message">Liste des organizations est vide</p>
+                  </div>
+                }
+                @if(organizations.length >0) {
+                
+                    <nav aria-label="Page navigation">
+                        <ul class="ti-pagination ltr:float-right rtl:float-left mb-4">
+                            <li class="page-item disabled"><a class="page-link px-3 py-[0.375rem]" href="javascript:void(0);">Prev</a></li>
+                            <li class="page-item"><a class="page-link px-3 py-[0.375rem]" href="javascript:void(0);">1</a></li>
+                            <li class="page-item"><a class="page-link px-3 py-[0.375rem]" href="javascript:void(0);">2</a></li>
+                            <li class="page-item"><a class="page-link px-3 py-[0.375rem]" href="javascript:void(0);">Next</a></li>
+                        </ul>
+                    </nav>
+                }
+                

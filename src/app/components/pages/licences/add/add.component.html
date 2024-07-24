@@ -1,0 +1,56 @@
+<app-page-header [title]="'Licence create'" [activeTitle]="'Home'" [title1]="'Licences'"></app-page-header>
+<div class="container">
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-6 mb-[3rem]">
+
+        <div class="xl:col-span-12 col-span-12">
+            
+            <div class="box">
+                <form >
+                    <div class="tab-pane show active dark:border-white/10" id="personal-info" aria-labelledby="Personal-item" >
+                        <div class="sm:p-4 p-0">
+                            <div class="sm:grid grid-cols-12 gap-6 mb-6">
+                                
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="applications" class="form-label">Applications</label>
+                                      <div class="form-check" *ngFor="let item of applications; let i = index" >
+                                        <input class="form-check-input" type="checkbox" [(ngModel)]="item.checked" name="item-{{i}}">
+                                        <label class="form-check-label">{{ item.name }}</label>  
+                                    </div>
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="applications" class="form-label">Durée de la licence en année</label>
+                                    <input class="form-control w-full !rounded-md"  type="number"  min="1" max="10" required [(ngModel)]="duration" name="item-duration">    
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+             
+                <div class="box-footer">
+                    <div class="ltr:float-right rtl:float-left">
+                        <button  (click)="onSubmit()" type="button" class="ti-btn bg-primary text-white m-1">
+                          Enregistrer
+                        </button>
+                    </div>
+                   
+                </div>
+                
+                </form>
+
+                <div class="row">
+                    <div class="col-span-3"></div>
+                    <div class="col-span-3">
+                        <div class="alert alert-success text-center" *ngIf="success" role="alert">
+                           {{message}}
+                        </div>
+                        <div class="alert alert-success text-center" *ngIf="error" role="alert">
+                            {{message}}
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+</div>

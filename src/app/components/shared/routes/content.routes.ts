@@ -12,7 +12,8 @@ import { FormEditorsRoutingModule } from '../../../ui_kits/forms/form-editors/fo
 import { formelementsRoutingModule } from '../../../ui_kits/forms/form-elements/form-elements.routes';
 import { formsRoutingModule } from '../../../ui_kits/forms/forms.routes';
 import { iconsRoutingModule } from '../../../ui_kits/icons/icons.routes';
-import { toolsRoutingModule } from '../../pages/applications/tools.routes';
+import { OrganizationsRoutingModule } from '../../pages/organizations/organizations.routes';
+import { LicencesRoutingModule } from '../../pages/licences/licences.routes';
 
 
 export const content: Routes = [
@@ -30,7 +31,8 @@ export const content: Routes = [
    ...iconsRoutingModule.routes,
    ...widgetsRoutingModule.routes,
    ...tablesRoutingModule.routes,
-   ...toolsRoutingModule.routes
+   ...OrganizationsRoutingModule.routes,
+   ...LicencesRoutingModule.routes
   ]}
 
   

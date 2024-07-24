@@ -93,7 +93,7 @@ export class NavService implements OnDestroy {
       headTitle: 'Security Hub',
     },
     {
-      title: 'Applications',
+      title: 'Security mindset',
       type: 'sub',
       icon: 'layer',
       active: false,
@@ -101,7 +101,17 @@ export class NavService implements OnDestroy {
       children: [
         {
           path: '/applications',
-          title: 'Applications list',
+          title: 'Domain list',
+          type: 'link',
+        },
+        {
+          path: '/organizations',
+          title: 'Organizations list',
+          type: 'link',
+        },
+        {
+          path: '/applications',
+          title: 'Licences list',
           type: 'link',
         },
 
