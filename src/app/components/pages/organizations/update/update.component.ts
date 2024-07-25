@@ -55,7 +55,7 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
 retrieveDomainData(){
   const sub = this.organisationservice.domainList().subscribe(
     response => {
-      this.realms = response;
+      this.realms = response.data;
     },
     error => {
     }
@@ -112,7 +112,7 @@ deleteLicence(id: any){
 }
 
 renewLicence(id: any){
-  this.organisationservice.renewLicence(id, 4).subscribe(
+  this.organisationservice.renewLicence(id, 2).subscribe(
     response => {
       this.success=true;
       this.error=false;
@@ -126,5 +126,6 @@ renewLicence(id: any){
     }
   );
 }
+
 
 }

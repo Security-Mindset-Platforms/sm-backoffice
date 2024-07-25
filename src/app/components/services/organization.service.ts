@@ -66,6 +66,30 @@ export class OrganizationService {
   renewLicence(id:any, year: any ): Observable<any>{
     return this.httpClient.put(EndPoints.LICENCE_URI+"/renew/"+id+"/year/"+ year,  this.options);
   }
+
+  retrieveValidLicence(): Observable<any>{
+    return this.httpClient.get(EndPoints.LICENCE_URI+"/valid",  this.options);
+  }
+
+  retrieveNonValidLicence(): Observable<any>{
+    return this.httpClient.get(EndPoints.LICENCE_URI+"/invalid",  this.options);
+  }
+
+  // user
+  allUserList(): Observable<any>{
+    return this.httpClient.get(EndPoints.USER_URI,  this.options);
+  }
+  allUserByOrganizationList(): Observable<any>{
+    return this.httpClient.get(EndPoints.USER_URI,  this.options);
+  }
+  createUser(data: any, realm: string,organizationId: any, type: string): Observable<any>{
+    return this.httpClient.post(EndPoints.USER_URI+"/realms/"+realm+"/create/"+organizationId+"/"+type,data,  this.options);
+  }
+
+  globalStats(): Observable<any>{
+    return this.httpClient.get(EndPoints.STAT_URI,  this.options);
+  }
+
   userProfile(userID: any): Observable<any>{
     return this.httpClient.get(EndPoints.USER_PROFIL_URI+userID,  this.options);
   }

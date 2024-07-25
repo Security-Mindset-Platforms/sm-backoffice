@@ -14,7 +14,9 @@ import { formsRoutingModule } from '../../../ui_kits/forms/forms.routes';
 import { iconsRoutingModule } from '../../../ui_kits/icons/icons.routes';
 import { OrganizationsRoutingModule } from '../../pages/organizations/organizations.routes';
 import { LicencesRoutingModule } from '../../pages/licences/licences.routes';
+import { DashboardRoutingModule } from '../../pages/dashboard/dashboard.routes';
 
+import { UsersRoutingModule } from '../../pages/users/users.routes';
 
 export const content: Routes = [
 
@@ -32,7 +34,9 @@ export const content: Routes = [
    ...widgetsRoutingModule.routes,
    ...tablesRoutingModule.routes,
    ...OrganizationsRoutingModule.routes,
-   ...LicencesRoutingModule.routes
+   ...LicencesRoutingModule.routes,
+   ...DashboardRoutingModule.routes,
+   ...UsersRoutingModule.routes
   ]}
 
   

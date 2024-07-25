@@ -4,7 +4,8 @@ import { content } from './components/shared/routes/content.routes';
 import { Error404Component } from './components/error/error404/error404.component';
 
 export const App_Route: Route[] = [
-      { path: '', redirectTo: 'applications', pathMatch: 'full' },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+    
       { path: '', component: ContentLayoutComponent, children: content },
       { path: '**', component: Error404Component }
     ]

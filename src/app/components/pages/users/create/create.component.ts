@@ -8,14 +8,16 @@ import { environment } from '../../../../../environments/environment';
 import {  ToastrService } from 'ngx-toastr';
 import { OrganizationService } from '../../../services/organization.service';
 @Component({
-  selector: 'app-organization-create',
+  selector: 'app-user-create',
   standalone: true,
   imports: [SharedModule, CommonModule, NgSelectModule,FormsModule,ReactiveFormsModule,CommonModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss'
 })
-export class OrganizationCreateComponent implements OnInit, OnDestroy {
-  realms: any[]=[];
+export class UserCreateComponent implements OnInit, OnDestroy {
+  types: any[]=["Enterprise", "Internal", "Public"];
+  realms: any[] = [];
+  organizations: any[]=[];
   message: string;
   success=false;
   error = false;
@@ -26,19 +28,39 @@ export class OrganizationCreateComponent implements OnInit, OnDestroy {
     this.createForm();
   }
   ngOnInit() {
-    this.retrieveDomainData();
+    this.retreiveOrganizationsList();
+    this.retreiveRealmsList();
   }
 
+  
   createForm() {
     this.userForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
+      lastName: ['', [Validators.required, Validators.minLength(3)]],
+      username: ['', [Validators.required, Validators.minLength(3)]],
+      email: ['', [Validators.required, Validators.minLength(3)]],
+      phone: ['', [Validators.required, Validators.minLength(3)]],
+      firstName: ['', [Validators.required, Validators.minLength(3)]],
+      organizationId: ['' , [Validators.required]],
+      type: ['' , [Validators.required]],
       realm: ['' , [Validators.required]]
     });
   }
-retrieveDomainData(){
-  const sub = this.organisationservice.domainList().subscribe(
+
+retreiveRealmsList(){
+    const sub = this.organisationservice.domainList().subscribe(
+      response => {
+        this.realms = response.data;
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.subscription.add(sub);
+  }
+retreiveOrganizationsList(){
+  const sub = this.organisationservice.organizationList().subscribe(
     response => {
-      this.realms = response.data;
+      this.organizations = response.data;
     },
     error => {
       console.error('Error fetching data', error);
@@ -52,12 +74,21 @@ ngOnDestroy(): void {
 
 onSubmit() {
   if (this.userForm.valid) {
-  var data= this.userForm.value;
-    this.organisationservice.createOrganization(data).subscribe(
+  var data= {
+    username: this.userForm.value.username,
+    firstName: this.userForm.value.firstName,
+    lastName: this.userForm.value.lastName, 
+    email: this.userForm.value.email, 
+   // phone: this.userForm.value.phone,
+    enabled: true,
+    //address: ''
+  }
+  
+    this.organisationservice.createUser(data, this.userForm.value.realm, this.userForm.value.organizationId, this.userForm.value.type ).subscribe(
       response => {
         this.success=true;
         this.error=false;
-        this.message = "Organizaton created";
+        this.message = "User created";
         this.createForm();
       },
       error => {

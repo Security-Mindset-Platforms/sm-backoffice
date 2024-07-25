@@ -24,7 +24,7 @@ ngOnInit(): void {
 retrieveData(){
   const sub = this.organizationService.organizationList().subscribe(
     response => {
-      this.organizations = response;
+      this.organizations = response.data;
     },
     error => {
     }

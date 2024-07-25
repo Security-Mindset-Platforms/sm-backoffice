@@ -2,23 +2,19 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 export const admin: Routes = [
- {path:'licences',children:[ 
+ {path:'users',children:[ 
   {
-    path: 'add/:id',
+    path: 'create',
     loadComponent: () =>
-    import('./add/add.component').then((m) => m.LicenceAddComponent),
+    import('./create/create.component').then((m) => m.UserCreateComponent),
   },
-  {
-    path: '',
-    loadComponent: () =>
-    import('./liste/liste.component').then((m) => m.LicenceListComponent),
-  }
+
 ]}
 ];
 @NgModule({
   imports: [RouterModule.forChild(admin)],
   exports: [RouterModule],
 })
-export class LicencesRoutingModule {
+export class UsersRoutingModule {
   static routes = admin;
 }

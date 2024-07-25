@@ -1,0 +1,119 @@
+<app-page-header [title]="'Licences list'" [activeTitle]="'Home'" [title1]="'Licences'"></app-page-header>
+<div class="container">
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-6 mb-[3rem]">
+
+        <div class="xl:col-span-12 col-span-12">
+           
+            <div class="box">
+               
+                <div class="box-header sm:flex block !justify-start">
+                   
+                    <nav aria-label="Tabs" class="md:flex block !justify-start whitespace-nowrap">
+                        <a class="m-1 block w-full hs-tab-active:bg-primary/10 hs-tab-active:text-primary cursor-pointer text-defaulttextcolor dark:text-defaulttextcolor/70 py-2 px-3 flex-grow  text-[0.75rem] font-medium rounded-md hover:text-primary active" id="Personal-item" data-hs-tab="#organization-licence" aria-controls="#organization-licence">
+                           Valid licences
+                        </a>
+                        <a class="m-1 block w-full hs-tab-active:bg-primary/10 hs-tab-active:text-primary cursor-pointer text-defaulttextcolor dark:text-defaulttextcolor/70 py-2 px-3 text-[0.75rem] flex-grow font-medium rounded-md hover:text-primary " id="account-item" data-hs-tab="#organization-users" aria-controls="organization-users">
+                           Non valid licences
+                        </a>
+                    </nav>
+                </div>
+                <div class="box-body">
+                    <div class="tab-content">
+                       
+                        <div class="tab-pane show active dark:border-white/10" id="organization-licence" aria-labelledby="licence-item" >
+                            <!-- Start:: row-1 -->
+                <div class="grid grid-cols-12 gap-6">
+                    <div class="xl:col-span-12 col-span-12">
+                        
+                        <div class="box custom-box">
+                            <div class="box-body">
+                                @if(validLicences.length <=0) {
+                                    <div class="empty-list-container"  >
+                                        <img src="assets/images/diploma.png" alt="Empty List Image" class="empty-list-image" width="100px">
+                                        <p class="empty-list-message">License list is empty</p>
+                                      </div>
+                                    }
+                                @if(validLicences.length >0) {
+                                <div class="table-responsive" >
+                                    <table class="table whitespace-nowrap min-w-full">
+                                        <thead>
+                                            <tr class="border-b border-defaultborder">
+                                                <th scope="col" class="text-start">Key</th>
+                                                <th scope="col" class="text-start">OrganizationID</th>
+                                                <th scope="col" class="text-start">Applications</th>
+                                                <th scope="col" class="text-start">Creation date</th>
+                                                <th scope="col" class="text-start">Expiration date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b border-defaultborder" *ngFor="let l of validLicences">
+                                                <th scope="row" class="text-start">{{l.key}}</th>
+                                                <td>{{l.organizationId}}</td>
+                                                <td>{{l.authorizedApplicationIds | json }}</td>
+                                                <td>{{l.creationDate}}</td>
+                                                <td>{{l.expirationDate}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                }
+                            </div>
+                            
+                         
+                        </div>
+                    </div>
+               
+                </div>
+                <!-- End:: row-1 -->
+                        </div>
+                        <div class="tab-pane dark:border-defaultborder/10 hidden" id="organization-users" aria-labelledby="users-item" role="tabpanel">
+                            <div class="xl:col-span-12 col-span-12">
+                                <div class="box custom-box">
+                               
+                                    <div class="box-body">
+                                        @if(nonValidLicences.length <=0) {
+                                            <div class="empty-list-container"  >
+                                                <img src="assets/images/diploma.png" alt="Empty List Image" class="empty-list-image" width="100px">
+                                                <p class="empty-list-message">License list is empty</p>
+                                              </div>
+                                            }
+                                        @if(nonValidLicences.length >0) {
+                                        <div class="table-responsive" >
+                                            <table class="table whitespace-nowrap min-w-full">
+                                                <thead>
+                                                    <tr class="border-b border-defaultborder">
+                                                        <th scope="col" class="text-start">Key</th>
+                                                        <th scope="col" class="text-start">OrganizationID</th>
+                                                        <th scope="col" class="text-start">Applications</th>
+                                                        <th scope="col" class="text-start">Creation date</th>
+                                                        <th scope="col" class="text-start">Expiration date</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr class="border-b border-defaultborder" *ngFor="let l of nonValidLicences">
+                                                        <th scope="row" class="text-start">{{l.key}}</th>
+                                                        <td>{{l.organizationId}}</td>
+                                                        <td>{{l.authorizedApplicationIds | json }}</td>
+                                                        <td>{{l.creationDate}}</td>
+                                                        <td>{{l.expirationDate}}</td>
+                                                
+                                             
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        }
+                                    </div>     
+                            </div>
+                            </div>
+                        </div>
+                   
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+</div>

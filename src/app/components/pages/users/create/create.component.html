@@ -1,0 +1,87 @@
+<app-page-header [title]="'Create an user'" [activeTitle]="'Home'" [title1]="'Users'"></app-page-header>
+<div class="container">
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-6 mb-[3rem]">
+        <div class="xl:col-span-12 col-span-12">
+            <div class="box">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                    <div class="tab-pane show active dark:border-white/10" id="personal-info" aria-labelledby="Personal-item" >
+                        <div class="sm:p-4 p-0">
+                            <div class="sm:grid grid-cols-12 gap-6 mb-6">
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="firstName" class="form-label">First Name</label>
+                                    <input formControlName="firstName" type="text" class="form-control w-full !rounded-md" id="first-name" placeholder="First name">
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="lastName" class="form-label">Last Name</label>
+                                    <input formControlName="lastName" type="text" class="form-control w-full !rounded-md" id="last-name" placeholder="Last name">
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input formControlName="email" type="text" class="form-control w-full !rounded-md" id="email" placeholder="Email">
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="phone" class="form-label">phone</label>
+                                    <input formControlName="phone" type="text" class="form-control w-full !rounded-md" id="phone" placeholder="phone">
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="username" class="form-label">username</label>
+                                    <input formControlName="username" type="text" class="form-control w-full !rounded-md" id="first-name" placeholder="username">
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="last-name" class="form-label">Organization</label>
+                                    <ng-select formControlName="organizationId"  >
+                                    
+                                            <ng-option   *ngFor="let org of organizations" [value]="org.id">
+                                                {{org.name}}
+                                            </ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="last-name" class="form-label">Ream</label>
+                                    <ng-select formControlName="realm" >
+                                    
+                                            <ng-option *ngFor="let realm of realms"  [value]="realm">
+                                                {{realm}}
+                                            </ng-option>
+                                    </ng-select>
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                    <label for="last-name" class="form-label">Account type</label>
+                                    <ng-select formControlName="type" >
+                                    
+                                            <ng-option *ngFor="let type of types"  [value]="type">
+                                                {{type}}
+                                            </ng-option>
+                                    </ng-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+             
+                <div class="box-footer">
+                    <div class="ltr:float-right rtl:float-left">
+                        <button [disabled]="userForm.invalid" type="submit" class="ti-btn bg-primary text-white m-1">
+                          Enregistrer
+                        </button>
+                    </div>
+                   
+                </div>
+                
+                </form>
+
+                <div class="row">
+                    <div class="col-span-3"></div>
+                    <div class="col-span-3">
+                        <div class="alert alert-success text-center" *ngIf="success" role="alert">
+                           {{message}}
+                        </div>
+                        <div class="alert alert-danger text-center" *ngIf="error" role="alert">
+                            {{message}}
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

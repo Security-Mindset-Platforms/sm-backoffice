@@ -93,28 +93,38 @@ export class NavService implements OnDestroy {
       headTitle: 'Security Hub',
     },
     {
-      title: 'Security mindset',
+      title: 'Dashboard',
+      icon: 'brain',
+      type: 'sub',
+      selected: false,
+      active: false,
+      children: [
+        { path: '/dashboard', title: 'Dashboard', type: 'link' },
+       
+      ],
+    },
+    {
+      title: 'Resources',
       type: 'sub',
       icon: 'layer',
       active: false,
       menutype: 'mega-menu',
       children: [
         {
-          path: '/applications',
-          title: 'Domain list',
-          type: 'link',
-        },
-        {
           path: '/organizations',
           title: 'Organizations list',
           type: 'link',
         },
         {
-          path: '/applications',
+          path: '/licences',
           title: 'Licences list',
           type: 'link',
         },
-
+        {
+          path: '/applications',
+          title: 'Applications list',
+          type: 'link',
+        },
       ],
     },
 
