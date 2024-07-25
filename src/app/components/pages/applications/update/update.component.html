@@ -22,7 +22,7 @@
                               </div>
                           <div class="xl:col-span-6 col-span-12">
                             <label for="clientId" class="form-label">Client ID</label>
-                            <input formControlName="clientId" type="text" class="form-control w-full !rounded-md" id="clientId" placeholder="Client ID" required>
+                            <input [disabled]="true" formControlName="clientId" type="text" class="form-control w-full !rounded-md" id="clientId" placeholder="Client ID" required>
                           </div>
                           <div class="xl:col-span-6 col-span-12">
                             <label for="clientSecret" class="form-label">Client Secret</label>

@@ -51,5 +51,38 @@ retrieveNonValidLicences(){
 ngOnDestroy(): void {
   this.subscription.unsubscribe();
 }
+deleteLicence(id: any){
+  this.organisationservice.deleteLicence(id).subscribe(
+    response => {
+      this.success=true;
+      this.error=false;
+      this.message = "licence deleted";
+      this.retrieveValidLicences();
+      this.retrieveNonValidLicences();
+    },
+    error => {
+      this.error=true;
+      this.success=false;
+      this.message = "Internal error";
+    }
+  );
+}
+
+renewLicence(id: any){
+  this.organisationservice.renewLicence(id, 2).subscribe(
+    response => {
+      this.success=true;
+      this.error=false;
+      this.message = "licence renewed";
+      this.retrieveValidLicences();
+      this.retrieveNonValidLicences();
+    },
+    error => {
+      this.error=true;
+      this.success=false;
+      this.message = "Internal error";
+    }
+  );
+}
 
 }

@@ -97,8 +97,12 @@ onSubmit() {
     response => {
       this.success=true;
       this.error=false;
-      this.message = "Licence created";
-      this.createForm();
+      this.message = response.message;
+      if(response.code == 400){
+        this.error=true;
+        this.success=false;
+      }
+     // this.createForm();
     },
     error => {
       this.error=true;

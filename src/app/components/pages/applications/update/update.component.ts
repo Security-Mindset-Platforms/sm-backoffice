@@ -70,8 +70,8 @@ createForm() {
 }
 
   createFormWithData(data: any) {
-    this.userForm.patchValue({
-      clientId: data.clientId || '',
+    this.userForm  = this.fb.group({
+      clientId: [{value: data.clientId, disabled: true}, Validators.required],
       clientSecret: data.clientSecret || '',
       rootUrl: data.rootUrl || '',
       homeUrl: data.homeUrl || '',
@@ -86,8 +86,9 @@ createForm() {
       tags: (data.tags || []).join(';'),
       phone: data.phone || '',
       username: data.username || '',
-      realm: data.realm || '',
-      type: data.type || ''
+      realm: [{value: data.realm, disabled: true}, Validators.required],
+      type: data.type || '',
+      id: this.application.id
     });
   }
 
