@@ -1,4 +1,4 @@
-<app-page-header [title]="'Organization details'" [activeTitle]="'Home'" [title1]="'Settings'"></app-page-header>
+<app-page-header [title]="'Organization details'" [activeTitle]="'Home'" [title1]="'Organizations'"></app-page-header>
 <div class="container">
     <!-- Start::row-1 -->
     <div class="grid grid-cols-12 gap-6 mb-[3rem]">
@@ -99,7 +99,7 @@
                                         @if(organization.users.length <=0) {
                                             <div class="empty-list-container"  >
                                                 <img src="assets/images/group.png" alt="Empty List Image" class="empty-list-image" width="100px">
-                                                <p class="empty-list-message">Liste des utilisateurs de cette organization est vide</p>
+                                                <p class="empty-list-message">The user list for this organization is empty</p>
                                               </div>
                                             }
                                         @if(organization.users.length >0) {
@@ -166,9 +166,10 @@
                                                                 class="inline-flex text-info !py-[0.15rem] !px-[0.45rem] rounded-sm !font-semibold !text-[0.75em] bg-info/10">{{u.enabled}}</span>
                                                             </td>
                                                             <td>
-                                                              <button class="ti-btn ti-btn-danger !mb-0" type="submit">Delete</button>
+                                                              <button (click)="deleteAccount(u.keycloakId)" class="ti-btn ti-btn-danger !mb-0" type="submit">Delete</button>
                                                               <br>
-                                                              <button class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Enable</button>
+                                                              <button (click)="enableOrDisableAccount(u.keycloakId, 'disable')" *ngIf="u.enabled" class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Disable</button>
+                                                              <button (click)="enableOrDisableAccount(u.keycloakId, 'enable')" *ngIf="!u.enabled" class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Enable</button>
                                                             </td>
                                                           </tr>
                                               

@@ -8,6 +8,11 @@ export const admin: Routes = [
     loadComponent: () =>
     import('./create/create.component').then((m) => m.UserCreateComponent),
   },
+  {
+    path: ':id',
+    loadComponent: () =>
+    import('./update/update.component').then((m) => m.USerUpdateComponent),
+  },
 
 ]}
 ];

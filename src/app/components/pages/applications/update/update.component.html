@@ -1,0 +1,103 @@
+<app-page-header [title]="'Applications details'" [activeTitle]="'Home'" [title1]="'Applications'"></app-page-header>
+<div class="container">
+    <!-- Start::row-1 -->
+    <div class="grid grid-cols-12 gap-6 mb-[3rem]">
+
+        <div class="xl:col-span-12 col-span-12">
+            
+            <div class="box">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                    <div class="tab-pane show active dark:border-white/10" id="personal-info" aria-labelledby="Personal-item">
+                      <div class="sm:p-4 p-0">
+                        <div class="sm:grid grid-cols-12 gap-6 mb-6">
+                            <div class="xl:col-span-6 col-span-12">
+                                <label for="name" class="form-label">Name</label>
+                                <input formControlName="name" type="text" class="form-control w-full !rounded-md" id="name" placeholder="Name" required>
+                              </div>
+                              <div class="xl:col-span-6 col-span-12">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea formControlName="description" type="text" class="form-control w-full !rounded-md" id="description" placeholder="Description" required>
+                                
+                                </textarea>
+                              </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="clientId" class="form-label">Client ID</label>
+                            <input formControlName="clientId" type="text" class="form-control w-full !rounded-md" id="clientId" placeholder="Client ID" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="clientSecret" class="form-label">Client Secret</label>
+                            <input formControlName="clientSecret" type="text" class="form-control w-full !rounded-md" id="clientSecret" placeholder="Client Secret" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="rootUrl" class="form-label">Root URL</label>
+                            <input formControlName="rootUrl" type="text" class="form-control w-full !rounded-md" id="rootUrl" placeholder="Root URL" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="homeUrl" class="form-label">Home URL</label>
+                            <input formControlName="homeUrl" type="text" class="form-control w-full !rounded-md" id="homeUrl" placeholder="Home URL" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="validRedirectUris" class="form-label">Valid Redirect URIs (separated by ;)</label>
+                            <input formControlName="validRedirectUris" type="text" class="form-control w-full !rounded-md" id="validRedirectUris" placeholder="Valid Redirect URIs" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="validPostLogoutUris" class="form-label">Valid Post Logout URIs (separated by ;)</label>
+                            <input formControlName="validPostLogoutUris" type="text" class="form-control w-full !rounded-md" id="validPostLogoutUris" placeholder="Valid Post Logout URIs" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="webOrigins" class="form-label">Web Origins (separated by ;)</label>
+                            <input formControlName="webOrigins" type="text" class="form-control w-full !rounded-md" id="webOrigins" placeholder="Web Origins" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="defaultClientScopes" class="form-label">Default Client Scopes (separated by ;)</label>
+                            <input formControlName="defaultClientScopes" type="text" class="form-control w-full !rounded-md" id="defaultClientScopes" placeholder="Default Client Scopes" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="optionalClientScopes" class="form-label">Optional Client Scopes (separated by ;)</label>
+                            <input formControlName="optionalClientScopes" type="text" class="form-control w-full !rounded-md" id="optionalClientScopes" placeholder="Optional Client Scopes" required>
+                          </div>
+                         
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="photos" class="form-label">Photos</label>
+                            <input formControlName="photos" type="text" class="form-control w-full !rounded-md" id="photos" placeholder="Photos" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="tags" class="form-label">Tags (separated by ;)</label>
+                            <input formControlName="tags" type="text" class="form-control w-full !rounded-md" id="tags" placeholder="Tags" required>
+                          </div>
+                          <div class="xl:col-span-6 col-span-12">
+                            <label for="realm" class="form-label">Realm</label>
+                            <ng-select [disabled]="true" formControlName="realm" class="form-control w-full !rounded-md">
+                              <ng-option *ngFor="let realm of realms" [value]="realm">{{realm}}</ng-option>
+                            </ng-select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  
+                    <div class="box-footer">
+                      <div class="ltr:float-right rtl:float-left">
+                        <button [disabled]="userForm.invalid" type="submit" class="ti-btn bg-primary text-white m-1">
+                          Enregistrer
+                        </button>
+                      </div>
+                    </div>
+                  </form>
+                  
+
+                <div class="row">
+                    <div class="col-span-3"></div>
+                    <div class="col-span-3">
+                        <div class="alert alert-success text-center" *ngIf="success" role="alert">
+                           {{message}}
+                        </div>
+                        <div class="alert alert-danger text-center" *ngIf="error" role="alert">
+                            {{message}}
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--End::row-1 -->
+</div>

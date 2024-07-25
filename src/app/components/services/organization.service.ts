@@ -83,7 +83,17 @@ export class OrganizationService {
     return this.httpClient.get(EndPoints.USER_URI,  this.options);
   }
   createUser(data: any, realm: string,organizationId: any, type: string): Observable<any>{
-    return this.httpClient.post(EndPoints.USER_URI+"/realms/"+realm+"/create/"+organizationId+"/"+type,data,  this.options);
+    return this.httpClient.post(EndPoints.USER_URI+"/realms/"+realm+"/create/"+ +organizationId+"/"+type,data,  this.options);
+  }
+  updateUser(data: any, realm: string,organizationId: any, type: string,  id: any): Observable<any>{
+    return this.httpClient.put(EndPoints.USER_URI+"/realms/"+realm+"/update/"+id + "/" + organizationId+"/"+type,data,  this.options);
+  }
+
+  enableDisableUser(realm: string, id: any, action: any): Observable<any>{
+    return this.httpClient.put(EndPoints.USER_URI+"/realms/"+realm+"/"+id+"/"+action,  this.options);
+  }
+  deleteAccount(realm: string, id: any): Observable<any>{
+    return this.httpClient.delete(EndPoints.USER_URI+"/realms/"+realm+"/"+id+"/delete",  this.options);
   }
 
   globalStats(): Observable<any>{
@@ -97,4 +107,18 @@ export class OrganizationService {
     return this.httpClient.put(EndPoints.USER_PROFIL_URI+userID,data,  this.options);
   }
 
+  // application
+  createApplication(data: any, realm: string): Observable<any>{
+    return this.httpClient.post(environment.urlAPi+ EndPoints.BASE_URI+"applications/"+realm,data,  this.options);
+  }
+ updateApplication(data: any, realm: string): Observable<any>{
+    return this.httpClient.put(environment.urlAPi+ EndPoints.BASE_URI+"applications/"+realm,data,  this.options);
+  }
+
+  deleteApplication(id: any, realm: string): Observable<any>{
+    return this.httpClient.delete(environment.urlAPi+ EndPoints.BASE_URI+"applications/realm/"+realm+"/"+id,  this.options);
+  }
+  applicationDetail(id: any): Observable<any>{
+    return this.httpClient.get(environment.urlAPi+ EndPoints.BASE_URI+"applications/"+id,  this.options);
+  }
 }

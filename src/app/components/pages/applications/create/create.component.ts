@@ -7,17 +7,16 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import {  ToastrService } from 'ngx-toastr';
 import { OrganizationService } from '../../../services/organization.service';
+import {ClientConfig} from '../client-config.model'
 @Component({
-  selector: 'app-user-create',
+  selector: 'app-application-create',
   standalone: true,
   imports: [SharedModule, CommonModule, NgSelectModule,FormsModule,ReactiveFormsModule,CommonModule],
   templateUrl: './create.component.html',
   styleUrl: './create.component.scss'
 })
-export class UserCreateComponent implements OnInit, OnDestroy {
-  types: any[]=["Enterprise", "Internal", "Public"];
+export class ApplicationCreateComponent implements OnInit, OnDestroy {
   realms: any[] = [];
-  organizations: any[]=[];
   message: string;
   success=false;
   error = false;
@@ -28,21 +27,26 @@ export class UserCreateComponent implements OnInit, OnDestroy {
     this.createForm();
   }
   ngOnInit() {
-    this.retreiveOrganizationsList();
     this.retreiveRealmsList();
   }
 
   
   createForm() {
     this.userForm = this.fb.group({
-      lastName: ['', [Validators.required, Validators.minLength(3)]],
-      username: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.minLength(3)]],
-      phone: ['', [Validators.required, Validators.minLength(3)]],
-      firstName: ['', [Validators.required, Validators.minLength(3)]],
-      organizationId: ['' , [Validators.required]],
-      type: ['' , [Validators.required]],
-      realm: ['' , [Validators.required]]
+      clientId: ['', Validators.required],
+      realm: ['', Validators.required],
+      clientSecret: ['', Validators.required],
+      rootUrl: ['', Validators.required],
+      homeUrl: ['', Validators.required],
+      validRedirectUris: ['', Validators.required],
+      validPostLogoutUris: ['', Validators.required],
+      webOrigins: ['', Validators.required],
+      defaultClientScopes: ['', Validators.required],
+      optionalClientScopes: ['', Validators.required],
+      name: ['', Validators.required],
+      description: ['', Validators.required],
+      photos: ['', Validators.required],
+      tags: ['', Validators.required]
     });
   }
 
@@ -57,38 +61,26 @@ retreiveRealmsList(){
     );
     this.subscription.add(sub);
   }
-retreiveOrganizationsList(){
-  const sub = this.organisationservice.organizationList().subscribe(
-    response => {
-      this.organizations = response.data;
-    },
-    error => {
-      console.error('Error fetching data', error);
-    }
-  );
-  this.subscription.add(sub);
-}
 ngOnDestroy(): void {
   this.subscription.unsubscribe();
 }
 
 onSubmit() {
-  if (this.userForm.valid) {
-  var data= {
-    username: this.userForm.value.username,
-    firstName: this.userForm.value.firstName,
-    lastName: this.userForm.value.lastName, 
-    email: this.userForm.value.email, 
-    phone: this.userForm.value.phone,
-    enabled: true,
-    //address: ''
-  }
-  
-    this.organisationservice.createUser(data, this.userForm.value.realm, this.userForm.value.organizationId, this.userForm.value.type ).subscribe(
+  const formValue = this.userForm.value;
+    const clientConfig: ClientConfig = {
+      ...formValue,
+      validRedirectUris: formValue.validRedirectUris.split(';').map((uri: string) => uri.trim()),
+      validPostLogoutUris: formValue.validPostLogoutUris.split(';').map((uri: string) => uri.trim()),
+      webOrigins: formValue.webOrigins.split(';').map((uri: string) => uri.trim()),
+      defaultClientScopes: formValue.defaultClientScopes.split(';').map((scope: string) => scope.trim()),
+      optionalClientScopes: formValue.optionalClientScopes.split(';').map((scope: string) => scope.trim()),
+      tags: formValue.tags.split(';').map((tag: string) => tag.trim())
+    };
+    this.organisationservice.createApplication(clientConfig, this.userForm.value.realm ).subscribe(
       response => {
         this.success=true;
         this.error=false;
-        this.message = "User created";
+        this.message = "Application created";
         this.createForm();
       },
       error => {
@@ -97,8 +89,6 @@ onSubmit() {
         this.message = "Internal error";
       }
     );
-  
-  } 
 }
 
 }

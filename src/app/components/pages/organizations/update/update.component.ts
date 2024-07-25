@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import { UserProfil } from '../../../modeles/busines.model';
 import { OrganizationService } from '../../../services/organization.service';
-import { ActivatedRoute, ParamMap, RouterModule } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 @Component({
   selector: 'app-organization-update',
   standalone: true,
@@ -29,8 +29,8 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   organizationId: any;
-
-  constructor(   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
+  realm = "master"
+  constructor( private router: Router,  private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }
   ngOnInit() {
@@ -68,6 +68,7 @@ retrieveData(){
       this.organization = response.data;
     },
     error => {
+      this.router.navigate(['/not-found']);
     }
   );
   this.subscription.add(sub);
@@ -127,5 +128,27 @@ renewLicence(id: any){
   );
 }
 
+enableOrDisableAccount(id,action){
+  const sub = this.organisationservice.enableDisableUser(this.realm, id, action).subscribe(
+    response => {
+      this.retrieveData();
+      alert("Action performed")
+    },
+    error => {
+    }
+  );
+  this.subscription.add(sub);
+}
+deleteAccount(id) {
+  const sub = this.organisationservice.deleteAccount(this.realm, id).subscribe(
+    response => {
+      this.retrieveData();
+      alert("Account deleted")
+    },
+    error => {
+    }
+  );
+  this.subscription.add(sub);
+}
 
 }

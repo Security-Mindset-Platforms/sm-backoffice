@@ -13,5 +13,6 @@ export class EndPoints {
     public static LICENCE_URI = environment.urlAPi+ EndPoints.BASE_URI +"licences";
 
     public static USER_URI = environment.urlAPi+ EndPoints.BASE_URI +"users";
+    
     public static STAT_URI = environment.urlAPi+ EndPoints.BASE_URI +"stats";
 }

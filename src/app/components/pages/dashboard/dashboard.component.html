@@ -112,6 +112,47 @@
         </div>
       </div>
     </div>
+    <div class="grid grid-cols-12 gap-x-6">
+
+      <div class="xxl:col-span-12 xl:col-span-6  col-span-12">
+        <div class="box">
+          <div class="box-header justify-between">
+            <div class="box-title">
+              Users overview
+            </div>
+            <div class="hs-dropdown ti-dropdown">
+            </div>
+          </div>
+          <div class="box-body">
+
+            <div class="flex w-full h-[0.3125rem] mb-6 rounded-full overflow-hidden">
+              <div class="flex flex-col justify-center rounded-s-[0.625rem] overflow-hidden bg-primary w-[21%]" aria-valuenow="21" aria-valuemin="0" aria-valuemax="100">
+              </div>
+              <div class="flex flex-col justify-center rounded-none overflow-hidden bg-info w-[26%]" aria-valuenow="26" aria-valuemin="0" aria-valuemax="100">
+              </div>
+              <div class="flex flex-col justify-center rounded-none overflow-hidden bg-warning w-[35%]" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100">
+              </div>
+              <div class="flex flex-col justify-center rounded-e-[0.625rem] overflow-hidden bg-success w-[18%]" aria-valuenow="18" aria-valuemin="0" aria-valuemax="100">
+              </div>
+            </div>
+            <ul class="list-none mb-0 pt-2 crm-deals-status">
+              <li class="primary">
+                <div class="flex items-center text-[0.813rem]  justify-between">
+                  <div>Active users</div>
+                  <div class="text-[0.75rem] text-[#8c9097] dark:text-white/50">{{stats.activeAccount}}</div>
+                </div>
+              </li>
+              <li class="info">
+                <div class="flex items-center text-[0.813rem]  justify-between">
+                  <div>Non active users</div>
+                  <div class="text-[0.75rem] text-[#8c9097] dark:text-white/50">{{stats.nonActiveAccount}}</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <div class="xxl:col-span-12 xl:col-span-12 col-span-12">
@@ -149,6 +190,7 @@
               <th scope="col" class="!text-start !text-[0.85rem]">Organization ID</th>
               <th scope="col" class="!text-start !text-[0.85rem]">Status</th>
               <th scope="col" class="!text-start !text-[0.85rem]">Action</th>
+              <th scope="col" class="!text-start !text-[0.85rem]"></th>
             </tr>
           </thead>
           <tbody>
@@ -176,13 +218,24 @@
                   class="inline-flex text-info !py-[0.15rem] !px-[0.45rem] rounded-sm !font-semibold !text-[0.75em] bg-info/10">{{u.enabled}}</span>
               </td>
               <td>
-                <button class="ti-btn ti-btn-danger !mb-0" type="submit">Delete</button>
+                <button (click)="deleteAccount(u.keycloakId)" class="ti-btn ti-btn-danger !mb-0" type="submit">Delete</button>
                 <br>
-                <button class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Enable</button>
+                <button (click)="enableOrDisableAccount(u.keycloakId, 'disable')" *ngIf="u.enabled" class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Disable</button>
+                <button (click)="enableOrDisableAccount(u.keycloakId, 'enable')" *ngIf="!u.enabled" class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Enable</button>
+              </td>
+              <td>
+                <button [routerLink]="['../users', u.keycloakId]" class="ti-btn ti-btn-danger !mb-0" type="submit">Consulter</button>
+               
               </td>
             </tr>
 
           </tbody>
+          @if(users.length <=0) {
+            <div class="empty-list-container"  >
+                <!-- <img src="assets/images/group.png" alt="Empty List Image" class="empty-list-image" width="100px"> -->
+                <p class="empty-list-message">The user list for this organization is empty</p>
+              </div>
+            }
         </table>
       </div>
     </div>

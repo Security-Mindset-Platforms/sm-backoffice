@@ -1,0 +1,27 @@
+#max-login-attempts{
+    .ng-select .ng-clear-wrapper{
+        display:none !important;
+    }
+}
+
+.empty-list-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 30vh;
+    text-align: center;
+  }
+  
+  .empty-list-image {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .empty-list-message {
+    margin-top: 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #555;
+  }
+  
