@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { environment } from '../../../../../environments/environment';
 import {  ToastrService } from 'ngx-toastr';
 import { OrganizationService } from '../../../services/organization.service';
+import { AuthInfo, AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-user-create',
   standalone: true,
@@ -16,20 +17,22 @@ import { OrganizationService } from '../../../services/organization.service';
 })
 export class UserCreateComponent implements OnInit, OnDestroy {
   types: any[]=["Enterprise", "Internal", "Public"];
+  authInfo: AuthInfo | undefined;
   realms: any[] = [];
   organizations: any[]=[];
   message: string;
   success=false;
   error = false;
-  userID= environment.userID;
+
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
-  constructor(    private toastr: ToastrService , public organisationservice: OrganizationService, private fb: FormBuilder,) {
+  constructor(private authService: AuthService,    private toastr: ToastrService , public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }
   ngOnInit() {
     this.retreiveOrganizationsList();
     this.retreiveRealmsList();
+    // this.authInfo = await this.authService.getAuthInfo();
   }
 
   

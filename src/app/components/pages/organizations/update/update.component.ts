@@ -4,10 +4,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
-import { UserProfil } from '../../../modeles/busines.model';
 import { OrganizationService } from '../../../services/organization.service';
 import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
+import { AuthInfo, AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-organization-update',
   standalone: true,
@@ -25,17 +24,18 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
   message: string;
   success=false;
   error = false;
-  userID= environment.userID;
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
+  authInfo: AuthInfo | undefined;
   organizationId: any;
   realm = "master"
-  constructor( private router: Router,  private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
+  constructor(private authService: AuthService,  private router: Router,  private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }
   ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
+    this.route.paramMap.subscribe(async (params: ParamMap) => {
       this.organizationId = params.get('id');
+      this.authInfo = await this.authService.getAuthInfo();
       this.retrieveData();
     });
   }

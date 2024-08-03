@@ -19,7 +19,6 @@ export class OrganizationCreateComponent implements OnInit, OnDestroy {
   message: string;
   success=false;
   error = false;
-  userID= environment.userID;
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   constructor(    private toastr: ToastrService , public organisationservice: OrganizationService, private fb: FormBuilder,) {

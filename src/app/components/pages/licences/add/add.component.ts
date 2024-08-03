@@ -4,8 +4,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
-import { UserProfil } from '../../../modeles/busines.model';
 import { OrganizationService } from '../../../services/organization.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 @Component({
@@ -28,7 +26,6 @@ export class LicenceAddComponent implements OnInit, OnDestroy {
   message: string;
   success=false;
   error = false;
-  userID= environment.userID;
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   constructor(   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {

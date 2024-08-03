@@ -35,15 +35,12 @@ export class BusinessService {
     ).join('&');
   }
 
-  applicationList(): Observable<any>{
-    return this.httpClient.get(EndPoints.APPLICATION_URI,  this.options);
-  }
 
-  userProfile(userID: any): Observable<any>{
-    return this.httpClient.get(EndPoints.USER_PROFIL_URI+userID,  this.options);
+  userProfile(userID: any, realm): Observable<any>{
+    return this.httpClient.get(EndPoints.USER_PROFIL_URI+realm+"/user/"+userID,  this.options);
   }
-  editUserProfil(userID: any, data: any): Observable<any>{
-    return this.httpClient.put(EndPoints.USER_PROFIL_URI+userID,data,  this.options);
+  editUserProfil(userID: any, data: any, realm): Observable<any>{
+    return this.httpClient.put(EndPoints.USER_PROFIL_URI+realm+"/user/"+userID,data,  this.options);
   }
 
 }

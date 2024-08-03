@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { UserProfil } from '../../../modeles/busines.model';
 import { BusinessService } from '../../../services/business.service';
 import { environment } from '../../../../../environments/environment';
+import { AuthInfo, AuthService } from '../../../services/auth.service';
 
 interface Item {
   id: number;
@@ -28,6 +29,7 @@ interface Item {
 })
 
 export class HeaderComponent {
+  authInfo: AuthInfo | undefined;
   Language = Language;
   cartItemCount: number = 5;
   notificationCount: number = 1;
@@ -35,7 +37,7 @@ export class HeaderComponent {
   public isCollapsed = true;
 
   private readonly translateService = inject(TranslateService);
-  constructor(public navServices: NavService,public businessService: BusinessService,
+  constructor(private authService: AuthService, public navServices: NavService,public businessService: BusinessService,
     private elementRef: ElementRef,private renderer:Renderer2) {
   }
   isFullScreen = false;
@@ -135,21 +137,21 @@ export class HeaderComponent {
     }
   }
   userProfile?: UserProfil = new UserProfil() ;
-  userID= environment.userID;
   private subscription: Subscription = new Subscription();
     // Search
     public menuItems!: Menu[];
     public items!: Menu[];
     public text!: string;
     public SearchResultEmpty:boolean = false;
-    ngOnInit() {
+    async ngOnInit() {
+      this.authInfo = await this.authService.getAuthInfo();
       this.navServices.items.subscribe((menuItems) => {
         this.items = menuItems;
       });
       //this.retrieveData();
     }
     retrieveData(){
-      const sub = this.businessService.userProfile(this.userID).subscribe(
+      const sub = this.businessService.userProfile(this.authInfo.userId,this.authInfo.realm).subscribe(
         response => {
          this.completeName= response.firstName;
     

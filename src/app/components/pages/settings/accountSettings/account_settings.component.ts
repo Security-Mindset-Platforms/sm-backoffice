@@ -4,10 +4,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import { UserProfil } from '../../../modeles/busines.model';
 import { BusinessService } from '../../../services/business.service';
 import { ToastrService } from 'ngx-toastr';
+import { AuthInfo, AuthService } from '../../../services/auth.service';
 @Component({
   selector: 'app-account_settings',
   standalone: true,
@@ -17,7 +17,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AccountSettingsComponent implements OnInit, OnDestroy {
   userProfile?: UserProfil = new UserProfil() ;
-  userID= environment.userID;
+  authInfo: AuthInfo | undefined;
   private subscription: Subscription = new Subscription();
   selectedLanguage = ['Français'];
   Languages = [
@@ -26,11 +26,12 @@ export class AccountSettingsComponent implements OnInit, OnDestroy {
     { id: 3, name: 'Français' },
   ];
   userForm: FormGroup;
-  constructor(    private toastr: ToastrService , public businessService: BusinessService, private fb: FormBuilder,) {
+  constructor( private authService: AuthService,   private toastr: ToastrService , public businessService: BusinessService, private fb: FormBuilder,) {
     this.createForm();
   }
-  ngOnInit() {
+  async ngOnInit() {
     this.retrieveData();
+    this.authInfo = await this.authService.getAuthInfo();
   }
 
   createForm() {
@@ -71,7 +72,7 @@ onSelectFile2(event: any) {
 
 
 retrieveData(){
-  const sub = this.businessService.userProfile(this.userID).subscribe(
+  const sub = this.businessService.userProfile(this.authInfo?.userId,  this.authInfo?.realm).subscribe(
     response => {
       this.userProfile = response;
     },
@@ -88,7 +89,7 @@ ngOnDestroy(): void {
 onSubmit() {
   if (this.userForm.valid) {
   var user= this.userForm.value;
-    this.businessService.editUserProfil(environment.userID, user).subscribe(
+    this.businessService.editUserProfil(this.authInfo?.userId, user, this.authInfo?.realm).subscribe(
       response => {
         this.toastr.success('Informations edited!', 'Succès'); 
       },

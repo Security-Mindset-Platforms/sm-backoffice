@@ -6,6 +6,7 @@ import { BusinessService } from '../../services/business.service';
 import { Subscription } from 'rxjs';
 import { UserProfil } from '../../modeles/busines.model';
 import { environment } from '../../../../environments/environment';
+import { AuthInfo, AuthService } from '../../services/auth.service';
 @Component({
   selector: 'app-profile',
   standalone: true,
@@ -15,16 +16,18 @@ import { environment } from '../../../../environments/environment';
 })
 export class ProfileComponent implements OnInit, OnDestroy{
 
-  constructor( public businessService: BusinessService) {}
+  constructor(private authService: AuthService, public businessService: BusinessService) {}
   userProfile?: UserProfil = new UserProfil() ;
-  userID= environment.userID;
+  authInfo: AuthInfo | undefined;
   private subscription: Subscription = new Subscription();
-  ngOnInit() {
+  async ngOnInit() {
+ 
+    this.authInfo = await this.authService.getAuthInfo();
     this.retrieveData();
   }
 
   retrieveData(){
-    const sub = this.businessService.userProfile(this.userID).subscribe(
+    const sub = this.businessService.userProfile(this.authInfo?.userId,  this.authInfo?.realm).subscribe(
       response => {
         this.userProfile = response;
       },

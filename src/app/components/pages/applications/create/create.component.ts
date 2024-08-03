@@ -4,7 +4,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import {  ToastrService } from 'ngx-toastr';
 import { OrganizationService } from '../../../services/organization.service';
 import {ClientConfig} from '../client-config.model'
@@ -20,7 +19,6 @@ export class ApplicationCreateComponent implements OnInit, OnDestroy {
   message: string;
   success=false;
   error = false;
-  userID= environment.userID;
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   constructor(    private toastr: ToastrService , public organisationservice: OrganizationService, private fb: FormBuilder,) {
