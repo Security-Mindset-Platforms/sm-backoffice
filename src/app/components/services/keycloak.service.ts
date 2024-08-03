@@ -1,52 +1,18 @@
-// src/app/services/keycloak.service.ts
 import { Injectable } from '@angular/core';
-import Keycloak from 'keycloak-js';
+import { KeycloakService } from 'keycloak-angular';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class KeycloakService {
-  private keycloak: Keycloak.KeycloakInstance;
+@Injectable({ providedIn: 'root' })
+export class KeycloakOperationService {
+  constructor(private readonly keycloak: KeycloakService) {}
 
-  constructor() {
-    this.keycloak = new Keycloak({
-        url: 'http://localhost:8080/auth',
-        realm: 'master',
-        clientId: 'security-admin-console'
-    });
+  isLoggedIn(): boolean {
+    return this.keycloak.isLoggedIn();
   }
-
-  init(): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-      this.keycloak.init({ onLoad: 'login-required' }).then((authenticated) => {
-        if (authenticated) {
-          resolve();
-        } else {
-          reject('Not authenticated');
-        }
-      }).catch((error) => {
-        reject(error);
-      });
-    });
+  logout(): Promise<void>  {
+    return this.keycloak.logout().then(() => this.keycloak.clearToken());
   }
-
-  isAuthenticated(): boolean {
-    return this.keycloak.authenticated || false;
+  getUserProfile(): any {
+    return this.keycloak.loadUserProfile();
   }
-
-  getToken(): string {
-    return this.keycloak.token || '';
-  }
-
-  login(): void {
-    this.keycloak.login();
-  }
-
-  logout(): void {
-    this.keycloak.logout();
-  }
-
-  getKeycloakInstance(): Keycloak.KeycloakInstance {
-    return this.keycloak;
-  }
+  // Add other methods as needed for token access, user info retrieval, etc.}
 }

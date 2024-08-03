@@ -1,4 +1,4 @@
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { RouterOutlet, provideRouter } from '@angular/router';
 import {
   BrowserAnimationsModule,
@@ -17,8 +17,10 @@ import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { Language } from './components/shared/enums/language.enum';
-import { AuthInterceptor } from './components/services/auth.interceptor';
-
+//import { AuthInterceptor } from './components/services/auth.interceptor';
+import {KeycloakService ,KeycloakBearerInterceptor,KeycloakAngularModule} from 'keycloak-angular';
+import {initializeKeycloak} from './keycloak-init.factory';
+import { from } from 'rxjs';
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
 }
@@ -39,9 +41,17 @@ export const appConfig: ApplicationConfig = {
     ColorPickerModule,
     ColorPickerService,
     provideAnimations(),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeKeycloak,
+      multi: true,
+      deps: [KeycloakService]
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: KeycloakBearerInterceptor, multi: true },
+    KeycloakService,
     provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(
+      KeycloakAngularModule,
       TranslateModule.forRoot(provideTranslation()),
       CalendarModule.forRoot({
         provide: DateAdapter,
