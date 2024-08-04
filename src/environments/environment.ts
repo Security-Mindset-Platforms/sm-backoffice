@@ -6,7 +6,7 @@ export const environment = {
   apiKey: "linsan",
   keycloak: {
     realm: 'security-mindset',
-    clientId: 'angular',
+    clientId: 'sm-backoffice',
     url: 'https://connect.security-mindset.fr/'
 },
 

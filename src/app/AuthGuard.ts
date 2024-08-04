@@ -25,8 +25,8 @@ import {ActivatedRouteSnapshot,RouterStateSnapshot, Router, UrlTree} from '@angu
 
       
 
-      console.log('role restriction given at app-routing.module for this route', route.data['roles']);
-      console.log('User roles coming after login from keycloak :', this.roles);
+      // console.log('role restriction given at app-routing.module for this route', route.data['roles']);
+      // console.log('User roles coming after login from keycloak :', this.roles);
      
     // Get the roles required from the route.
       const requiredRoles = route.data['roles'];
