@@ -7,7 +7,7 @@ export const environment = {
   keycloak: {
     realm: 'security-mindset',
     clientId: 'angular',
-    url: 'https://test.security-mindset.fr/'
+    url: 'https://connect.security-mindset.fr/'
 },
 
 };
