@@ -22,7 +22,7 @@ ngOnInit(): void {
   }
 
 retrieveData(){
-  const sub = this.organizationService.applicationsList("master").subscribe(
+  const sub = this.organizationService.applicationsList("security-mindset").subscribe(
     response => {
       this.applications = response.data;
     },
@@ -34,8 +34,8 @@ retrieveData(){
 ngOnDestroy(): void {
   this.subscription.unsubscribe();
 }
-deleteApplication(id,  index){
-  const sub = this.organizationService.deleteApplication(id, "master").subscribe(
+deleteApplication(id,  index, realm){
+  const sub = this.organizationService.deleteApplication(id, realm).subscribe(
     response => {
       this.applications.splice(index, 1);
       this.retrieveData();

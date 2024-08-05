@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { advanceduiRoutingModule } from '../../../ui_kits/advancedui/advancedui.routes';
 import { pagesRoutingModule } from '../../pages/pages.routes';
-import { mailRoutingModule } from '../../pages/settings/email.routes';
 import { mapsRoutingModule } from '../../../ui_kits/maps/maps.routes';
 import { widgetsRoutingModule } from '../../../ui_kits/widgets/widgets.routes';
 import { tablesRoutingModule } from '../../../ui_kits/tables/tables.routes';
@@ -22,8 +21,7 @@ export const content: Routes = [
 
   { path: '', children: [
    ...advanceduiRoutingModule.routes,
-   ...pagesRoutingModule.routes,
-   ...mailRoutingModule.routes,
+   ...pagesRoutingModule.routes,  
    ...uielementsRoutingModule.routes,
    ...utilitiesRoutingModule.routes,
    ...FormEditorsRoutingModule.routes,

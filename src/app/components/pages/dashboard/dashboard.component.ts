@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { OrganizationService } from '../../services/organization.service';
 import { CommonModule } from '@angular/common';
+import { KeycloakService } from 'keycloak-angular';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -21,7 +22,10 @@ import { CommonModule } from '@angular/common';
 })
 export class DashboardComponent implements OnInit, OnDestroy {
   users: any[]= [];
-  realm ="master";
+  realm ="security-mindset";
+  admin =false;
+  owner = false;
+  roles: any[]= [];
   stats: any = {
     invalidLicenses: 0,
     numberOfDomains: 0,
@@ -32,11 +36,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
     nonActiveAccount: 0
   }
   private subscription: Subscription = new Subscription();
-  constructor(public organizationService: OrganizationService) {
+  constructor(      protected readonly keycloak: KeycloakService, public organizationService: OrganizationService) {
   }
   ngOnInit(): void {
     this.retrieveData();
     this.retrieveStatsData();
+    this.roles= this.keycloak.getUserRoles();
+    if(this.roles.includes("SM_ADMIN")){
+      this.admin=true;
+    }
+    if(this.roles.includes("SM_OWNER")){
+      this.owner=true;
+    }
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();

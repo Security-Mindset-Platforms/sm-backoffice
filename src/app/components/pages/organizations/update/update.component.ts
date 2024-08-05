@@ -28,7 +28,7 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   authInfo: AuthInfo | undefined;
   organizationId: any;
-  realm = "master"
+  realm = "security-mindset"
   constructor(private authService: AuthService,  private router: Router,  private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }

@@ -14,9 +14,9 @@
                                 </div>
                                 <div class="xl:col-span-6 col-span-12">
                                     <label for="last-name" class="form-label">Realm</label>
-                                    <ng-select formControlName="realm" *ngFor="let realm of realms" >
+                                    <ng-select formControlName="realm"  >
                                     
-                                            <ng-option  [value]="realm">
+                                            <ng-option  [value]="realm" *ngFor="let realm of realms">
                                                 {{realm}}
                                             </ng-option>
                                     </ng-select>

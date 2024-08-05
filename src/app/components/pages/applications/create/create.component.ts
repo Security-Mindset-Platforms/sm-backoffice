@@ -76,10 +76,18 @@ onSubmit() {
     };
     this.organisationservice.createApplication(clientConfig, this.userForm.value.realm ).subscribe(
       response => {
-        this.success=true;
-        this.error=false;
-        this.message = "Application created";
-        this.createForm();
+
+         if(response.code === 200){
+          this.message = response.message;
+          this.createForm();
+          this.success=true;
+          this.error=false;
+         }
+         else {
+          this.message = response.message;
+          this.success=false;
+          this.error=true;
+         }
       },
       error => {
         this.error=true;

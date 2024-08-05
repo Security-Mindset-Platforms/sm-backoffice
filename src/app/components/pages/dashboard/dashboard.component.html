@@ -188,6 +188,7 @@
               <th scope="col" class="!text-start !text-[0.85rem]">Keycloak ID</th>
               <th scope="col" class="!text-start !text-[0.85rem]">Email/Phone</th>
               <th scope="col" class="!text-start !text-[0.85rem]">Organization ID</th>
+              <th scope="col" class="!text-start !text-[0.85rem]">Realm</th>
               <th scope="col" class="!text-start !text-[0.85rem]">Status</th>
               <th scope="col" class="!text-start !text-[0.85rem]">Action</th>
               <th scope="col" class="!text-start !text-[0.85rem]"></th>
@@ -214,14 +215,17 @@
                 {{u.organizationId}}
               </td>
               <td>
+                {{u.realm}}
+              </td>
+              <td>
                 <span
                   class="inline-flex text-info !py-[0.15rem] !px-[0.45rem] rounded-sm !font-semibold !text-[0.75em] bg-info/10">{{u.enabled}}</span>
               </td>
               <td>
-                <button (click)="deleteAccount(u.keycloakId)" class="ti-btn ti-btn-danger !mb-0" type="submit">Delete</button>
+                <button *ngIf="owner"  (click)="deleteAccount(u.keycloakId)" class="ti-btn ti-btn-danger !mb-0" type="submit">Delete</button>
                 <br>
-                <button (click)="enableOrDisableAccount(u.keycloakId, 'disable')" *ngIf="u.enabled" class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Disable</button>
-                <button (click)="enableOrDisableAccount(u.keycloakId, 'enable')" *ngIf="!u.enabled" class="ti-btn ti-btn-primary !mb-0" type="submit"  style="margin-top: 10px;">Enable</button>
+                <button (click)="enableOrDisableAccount(u.keycloakId, 'disable')" *ngIf="u.enabled && admin" class="ti-btn ti-btn-primary !mb-0 cursor" type="submit"  style="margin-top: 10px;">Disable</button>
+                <button (click)="enableOrDisableAccount(u.keycloakId, 'enable')" *ngIf="!u.enabled && admin " class="ti-btn ti-btn-primary !mb-0 cursor" type="submit"  style="margin-top: 10px;">Enable</button>
               </td>
               <td>
                 <button [routerLink]="['../users', u.keycloakId]" class="ti-btn ti-btn-danger !mb-0" type="submit">Consulter</button>

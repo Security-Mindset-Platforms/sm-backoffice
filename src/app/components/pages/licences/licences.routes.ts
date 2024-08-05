@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from '../../../AuthGuard';
 
 export const admin: Routes = [
  {path:'licences',children:[ 
@@ -7,11 +8,13 @@ export const admin: Routes = [
     path: 'add/:id',
     loadComponent: () =>
     import('./add/add.component').then((m) => m.LicenceAddComponent),
+    canActivate: [AuthGuard], data: { roles: [ 'SM_ADMIN'] }
   },
   {
     path: '',
     loadComponent: () =>
     import('./liste/liste.component').then((m) => m.LicenceListComponent),
+    canActivate: [AuthGuard], data: { roles: [ 'SM_ADMIN'] }
   }
 ]}
 ];

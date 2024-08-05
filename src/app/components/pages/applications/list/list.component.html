@@ -38,7 +38,7 @@
                                         <p class="text-[#8c9097] dark:text-white/50 mb-3"> 
                                            <strong>Application's Keycloak ID:</strong>  {{p.keycloakId}}
                                         </p>
-                                        <i (click)="deleteApplication(p.keycloakId, i)" class="fa fa-trash fa-2x" aria-hidden="true"></i>
+                                        <i (click)="deleteApplication(p.keycloakId, i, p.realm)" class="fa fa-trash fa-2x cursor" aria-hidden="true"></i>
 
                                     </div>
                                 </div>
