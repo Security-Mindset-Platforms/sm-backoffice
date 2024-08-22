@@ -47,10 +47,15 @@ export class OrganizationService {
   getOrganization(id: any): Observable<any>{
     return this.httpClient.get(EndPoints.ORGANIZATION_URI+"/"+id,  this.options);
   }
+  loginCli(token: any): Observable<any>{
+    return this.httpClient.post(EndPoints.ORGANIZATION_URI+"/cli/login/"+token,  this.options);
+  }
   domainList(): Observable<any>{
     return this.httpClient.get(EndPoints.DOMAIN_URI,  this.options);
   }
-
+  generateCliToken(id: any): Observable<any>{
+    return this.httpClient.post(EndPoints.ORGANIZATION_URI+"/token/generate/"+id,  this.options);
+  }
   applicationsList(realm: string): Observable<any>{
     return this.httpClient.get(EndPoints.APPLICATIONS_URI+"applications/"+realm+"/clients",  this.options);
   }

@@ -20,10 +20,14 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
     licences: [],
     users: []
   }
+  token: string;
+  showToken=false;
   realms: any[]=[''];
   message: string;
   success=false;
   error = false;
+  isLoading = false;
+
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   authInfo: AuthInfo | undefined;
@@ -37,7 +41,30 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
       this.organizationId = params.get('id');
       this.authInfo = await this.authService.getAuthInfo();
       this.retrieveData();
+      this.loginCli();
     });
+  }
+
+  generateToken(): void {
+    this.isLoading = true;
+    const sub = this.organisationservice.generateCliToken(this.organizationId).subscribe(
+      response => {
+        this.token = response.data;
+        this.isLoading = false;
+      },
+      error => {
+        this.isLoading = false;
+      }
+    );
+    this.subscription.add(sub);
+  }
+
+  copyToClipboard(): void {
+    if (this.token) {
+      navigator.clipboard.writeText(this.token).then(() => {
+        alert('Token copied to clipboard');
+      });
+    }
   }
 
   createForm() {
@@ -66,9 +93,23 @@ retrieveData(){
   const sub = this.organisationservice.getOrganization(this.organizationId).subscribe(
     response => {
       this.organization = response.data;
+      this.token=this.organization.infos.cliToken;
     },
     error => {
       this.router.navigate(['/not-found']);
+    }
+  );
+  this.subscription.add(sub);
+}
+
+loginCli(){
+  const sub = this.organisationservice.loginCli("hhh").subscribe(
+    response => {
+      console.log(response.data)
+    },
+    error => {
+      //this.router.navigate(['/not-found']);
+      console.log(error)
     }
   );
   this.subscription.add(sub);
