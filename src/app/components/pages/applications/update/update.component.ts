@@ -8,6 +8,23 @@ import { environment } from '../../../../../environments/environment';
 import { OrganizationService } from '../../../services/organization.service';
 import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { ClientConfig } from '../client-config.model';
+import { PermissionService } from '../services/permission.service';
+import { FeatureService } from '../services/feature.service';
+export interface Permission {
+  id?: string;
+  featureId: string;
+  featureName: string;
+  create: boolean;
+  update: boolean;
+  get: boolean;
+  delete: boolean;
+}
+export interface Feature {
+  id?: string;
+  appId: string;
+  name: string;
+  description: string;
+}
 @Component({
   selector: 'app-application-update',
   standalone: true,
@@ -28,7 +45,56 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   appId: any;
   realm = "master"
-  constructor( private router: Router,   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
+  permissions: Permission[] = [];
+  featureId: string = 'feature-id'; // Récupérer dynamiquement l'id de la fonctionnalité
+  feature: Feature = { appId: 'your-app-id', name: '', description: '' };
+  features: Feature[] = [];
+  permission: Permission = {
+    featureId: '',
+    featureName: '',
+    create: false,
+    update: false,
+    get: false,
+    delete: false
+  };
+  feat = ["feature 1", "Feature 2"]
+
+  featureName: string = '';
+
+  addPermission() {
+    this.permissionService.addPermission(this.permission).subscribe(() => {
+      // Redirige vers la liste des permissions de cette fonctionnalité
+      this.router.navigate([`/permissions/${this.featureId}`]);
+    });
+  }
+  loadFeatures() {
+    this.featureService.getFeatures(this.appId).subscribe((features) => {
+      this.features = features;
+    });
+  }
+  addFeature() {
+    this.featureService.addFeature(this.feature).subscribe(() => {
+      this.router.navigate(['/features']);
+    });
+  }
+  deleteFeature(id: string) {
+    this.featureService.deleteFeature(id).subscribe(() => {
+      this.loadFeatures();
+    });
+  }
+
+  loadPermissions() {
+    this.permissionService.getPermissions(this.featureId).subscribe((permissions) => {
+      this.permissions = permissions;
+    });
+  }
+
+  deletePermission(id: string) {
+    this.permissionService.deletePermission(id).subscribe(() => {
+      this.loadPermissions();
+    });
+  }
+  constructor(private featureService: FeatureService, private permissionService: PermissionService,  private router: Router,   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }
   ngOnInit() {
@@ -37,6 +103,8 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
       this.retrieveData();
     });
     this.retreiveRealmsList();
+    this.loadPermissions();
+    this.loadFeatures();
   }
   retreiveRealmsList(){
     const sub = this.organisationservice.domainList().subscribe(

@@ -1,103 +1,298 @@
 <app-page-header [title]="'Applications details'" [activeTitle]="'Home'" [title1]="'Applications'"></app-page-header>
-<div class="container">
-    <!-- Start::row-1 -->
-    <div class="grid grid-cols-12 gap-6 mb-[3rem]">
-
-        <div class="xl:col-span-12 col-span-12">
-            
-            <div class="box">
-                <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-                    <div class="tab-pane show active dark:border-white/10" id="personal-info" aria-labelledby="Personal-item">
-                      <div class="sm:p-4 p-0">
-                        <div class="sm:grid grid-cols-12 gap-6 mb-6">
-                            <div class="xl:col-span-6 col-span-12">
-                                <label for="name" class="form-label">Name</label>
-                                <input formControlName="name" type="text" class="form-control w-full !rounded-md" id="name" placeholder="Name" required>
-                              </div>
-                              <div class="xl:col-span-6 col-span-12">
-                                <label for="description" class="form-label">Description</label>
-                                <textarea formControlName="description" type="text" class="form-control w-full !rounded-md" id="description" placeholder="Description" required>
-                                
-                                </textarea>
-                              </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="clientId" class="form-label">Client ID</label>
-                            <input [disabled]="true" formControlName="clientId" type="text" class="form-control w-full !rounded-md" id="clientId" placeholder="Client ID" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="clientSecret" class="form-label">Client Secret</label>
-                            <input formControlName="clientSecret" type="text" class="form-control w-full !rounded-md" id="clientSecret" placeholder="Client Secret" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="rootUrl" class="form-label">Root URL</label>
-                            <input formControlName="rootUrl" type="text" class="form-control w-full !rounded-md" id="rootUrl" placeholder="Root URL" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="homeUrl" class="form-label">Home URL</label>
-                            <input formControlName="homeUrl" type="text" class="form-control w-full !rounded-md" id="homeUrl" placeholder="Home URL" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="validRedirectUris" class="form-label">Valid Redirect URIs (separated by ;)</label>
-                            <input formControlName="validRedirectUris" type="text" class="form-control w-full !rounded-md" id="validRedirectUris" placeholder="Valid Redirect URIs" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="validPostLogoutUris" class="form-label">Valid Post Logout URIs (separated by ;)</label>
-                            <input formControlName="validPostLogoutUris" type="text" class="form-control w-full !rounded-md" id="validPostLogoutUris" placeholder="Valid Post Logout URIs" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="webOrigins" class="form-label">Web Origins (separated by ;)</label>
-                            <input formControlName="webOrigins" type="text" class="form-control w-full !rounded-md" id="webOrigins" placeholder="Web Origins" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="defaultClientScopes" class="form-label">Default Client Scopes (separated by ;)</label>
-                            <input formControlName="defaultClientScopes" type="text" class="form-control w-full !rounded-md" id="defaultClientScopes" placeholder="Default Client Scopes" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="optionalClientScopes" class="form-label">Optional Client Scopes (separated by ;)</label>
-                            <input formControlName="optionalClientScopes" type="text" class="form-control w-full !rounded-md" id="optionalClientScopes" placeholder="Optional Client Scopes" required>
-                          </div>
-                         
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="photos" class="form-label">Photos</label>
-                            <input formControlName="photos" type="text" class="form-control w-full !rounded-md" id="photos" placeholder="Photos" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="tags" class="form-label">Tags (separated by ;)</label>
-                            <input formControlName="tags" type="text" class="form-control w-full !rounded-md" id="tags" placeholder="Tags" required>
-                          </div>
-                          <div class="xl:col-span-6 col-span-12">
-                            <label for="realm" class="form-label">Realm</label>
-                            <ng-select [disabled]="true" formControlName="realm" class="form-control w-full !rounded-md">
-                              <ng-option *ngFor="let realm of realms" [value]="realm">{{realm}}</ng-option>
-                            </ng-select>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  
-                    <div class="box-footer">
-                      <div class="ltr:float-right rtl:float-left">
-                        <button [disabled]="userForm.invalid" type="submit" class="ti-btn bg-primary text-white m-1">
-                          Enregistrer
-                        </button>
-                      </div>
-                    </div>
-                  </form>
-                  
-
-                <div class="row">
-                    <div class="col-span-3"></div>
-                    <div class="col-span-3">
-                        <div class="alert alert-success text-center" *ngIf="success" role="alert">
-                           {{message}}
-                        </div>
-                        <div class="alert alert-danger text-center" *ngIf="error" role="alert">
-                            {{message}}
-                         </div>
-                    </div>
-                </div>
-            </div>
+<div class="col-span-12 md:col-span-6 xxl:!col-span-4">
+  <div class="box">
+     
+      <div class="box-body">
+        <div class="sm:border-b border-gray-200 dark:border-white/10">
+          <nav class="sm:flex sm:space-x-2 sm:rtl:space-x-reverse" aria-label="Tabs">
+            <button type="button" class="w-full sm:w-auto hs-tab-active:font-semibold hs-tab-active:border-primary hs-tab-active:text-primary py-4 px-1 inline-flex items-center gap-2 border-b-[3px] border-transparent text-sm whitespace-nowrap text-defaulttextcolor hover:text-primary dark:text-[#8c9097] dark:text-white/50 active" id="tabs-with-badges-item-1" data-hs-tab="#tabs-with-badges-1" aria-controls="tabs-with-badges-1">
+               General Infos
+            </button>
+            <button type="button" class="w-full sm:w-auto hs-tab-active:font-semibold hs-tab-active:border-primary hs-tab-active:text-primary py-4 px-1 inline-flex items-center gap-2 border-b-[3px] border-transparent text-sm whitespace-nowrap text-defaulttextcolor hover:text-primary dark:text-[#8c9097] dark:text-white/50" id="tabs-with-badges-item-2" data-hs-tab="#tabs-with-badges-2" aria-controls="tabs-with-badges-2">
+              Features
+            </button>
+            <button type="button" class="w-full sm:w-auto hs-tab-active:font-semibold hs-tab-active:border-primary hs-tab-active:text-primary py-4 px-1 inline-flex items-center gap-2 border-b-[3px] border-transparent text-sm whitespace-nowrap text-defaulttextcolor hover:text-primary dark:text-[#8c9097] dark:text-white/50" id="permissions-with-badges-item-2" data-hs-tab="#permissions" aria-controls="permissions-with-badges-2">
+              Permissions
+            </button>
+          </nav>
         </div>
+
+        <div class="mt-3">
+          <div id="tabs-with-badges-1" role="tabpanel" aria-labelledby="tabs-with-badges-item-1">
+            <div class="xl:col-span-12 col-span-12">
+                                      
+              <div class="box">
+                  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                      <div class="tab-pane show active dark:border-white/10" id="personal-info" aria-labelledby="Personal-item">
+                        <div class="sm:p-4 p-0">
+                          <div class="sm:grid grid-cols-12 gap-6 mb-6">
+                              <div class="xl:col-span-6 col-span-12">
+                                  <label for="name" class="form-label">Name</label>
+                                  <input formControlName="name" type="text" class="form-control w-full !rounded-md" id="name" placeholder="Name" required>
+                                </div>
+                                <div class="xl:col-span-6 col-span-12">
+                                  <label for="description" class="form-label">Description</label>
+                                  <textarea formControlName="description" type="text" class="form-control w-full !rounded-md" id="description" placeholder="Description" required>
+                                  
+                                  </textarea>
+                                </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="clientId" class="form-label">Client ID</label>
+                              <input [disabled]="true" formControlName="clientId" type="text" class="form-control w-full !rounded-md" id="clientId" placeholder="Client ID" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="clientSecret" class="form-label">Client Secret</label>
+                              <input formControlName="clientSecret" type="text" class="form-control w-full !rounded-md" id="clientSecret" placeholder="Client Secret" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="rootUrl" class="form-label">Root URL</label>
+                              <input formControlName="rootUrl" type="text" class="form-control w-full !rounded-md" id="rootUrl" placeholder="Root URL" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="homeUrl" class="form-label">Home URL</label>
+                              <input formControlName="homeUrl" type="text" class="form-control w-full !rounded-md" id="homeUrl" placeholder="Home URL" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="validRedirectUris" class="form-label">Valid Redirect URIs (separated by ;)</label>
+                              <input formControlName="validRedirectUris" type="text" class="form-control w-full !rounded-md" id="validRedirectUris" placeholder="Valid Redirect URIs" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="validPostLogoutUris" class="form-label">Valid Post Logout URIs (separated by ;)</label>
+                              <input formControlName="validPostLogoutUris" type="text" class="form-control w-full !rounded-md" id="validPostLogoutUris" placeholder="Valid Post Logout URIs" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="webOrigins" class="form-label">Web Origins (separated by ;)</label>
+                              <input formControlName="webOrigins" type="text" class="form-control w-full !rounded-md" id="webOrigins" placeholder="Web Origins" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="defaultClientScopes" class="form-label">Default Client Scopes (separated by ;)</label>
+                              <input formControlName="defaultClientScopes" type="text" class="form-control w-full !rounded-md" id="defaultClientScopes" placeholder="Default Client Scopes" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="optionalClientScopes" class="form-label">Optional Client Scopes (separated by ;)</label>
+                              <input formControlName="optionalClientScopes" type="text" class="form-control w-full !rounded-md" id="optionalClientScopes" placeholder="Optional Client Scopes" required>
+                            </div>
+                           
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="photos" class="form-label">Photos</label>
+                              <input formControlName="photos" type="text" class="form-control w-full !rounded-md" id="photos" placeholder="Photos" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="tags" class="form-label">Tags (separated by ;)</label>
+                              <input formControlName="tags" type="text" class="form-control w-full !rounded-md" id="tags" placeholder="Tags" required>
+                            </div>
+                            <div class="xl:col-span-6 col-span-12">
+                              <label for="realm" class="form-label">Realm</label>
+                              <ng-select [disabled]="true" formControlName="realm" class="form-control w-full !rounded-md">
+                                <ng-option *ngFor="let realm of realms" [value]="realm">{{realm}}</ng-option>
+                              </ng-select>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    
+                      <div class="box-footer">
+                        <div class="ltr:float-right rtl:float-left">
+                          <button [disabled]="userForm.invalid" type="submit" class="ti-btn bg-primary text-white m-1">
+                            Enregistrer
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                    
+  
+                  <div class="row">
+                      <div class="col-span-3"></div>
+                      <div class="col-span-3">
+                          <div class="alert alert-success text-center" *ngIf="success" role="alert">
+                             {{message}}
+                          </div>
+                          <div class="alert alert-danger text-center" *ngIf="error" role="alert">
+                              {{message}}
+                           </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <div id="tabs-with-badges-2" class="hidden" role="tabpanel" aria-labelledby="tabs-with-badges-item-2">
+               
+            <button type="button" class="ti-btn ti-btn-primary-full label-ti-btn" data-hs-overlay="#addFeature">
+              
+              Add feature
+              </button>
+               <div class="xl:col-span-12 col-span-12">                       
+                  <div class="box">
+                    <h2 class="text-center title">Features List</h2>
+                    <table class="table whitespace-nowrap min-w-full">
+                      <thead>
+                        <tr class="border-b border-defaultborder">
+                          <th>Name</th>
+                          <th>Description</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let feature of features" class="border-b border-defaultborder">
+                          <td>{{ feature.name }}</td>
+                          <td>{{ feature.description }}</td>
+                          <td>
+                            <button (click)="deleteFeature(feature.id)">Delete</button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    
+                   </div>
+                </div>
+            
+          </div>
+          <div id="permissions" class="hidden" role="tabpanel" aria-labelledby="permissions-with-badges-item-2">
+            <button type="button" class="ti-btn ti-btn-primary-full label-ti-btn" data-hs-overlay="#addPermission">
+              
+              Add Permission
+              </button>
+            <div class="xl:col-span-12 col-span-12">                       
+              <div class="box">
+                <h2 class="text-center title">Permissions List</h2>
+                <table class="table whitespace-nowrap min-w-full">
+                  <thead>
+                    <tr class="border-b border-defaultborder">
+                      <th>Feature</th>
+                      <th>Create</th>
+                      <th>Update</th>
+                      <th>Get</th>
+                      <th>Delete</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let permission of permissions" class="border-b border-defaultborder">
+                      <td>{{ permission.featureName }}</td>
+                      <td>{{ permission.create }}</td>
+                      <td>{{ permission.update }}</td>
+                      <td>{{ permission.get }}</td>
+                      <td>{{ permission.delete }}</td>
+                      <td>
+                        <button (click)="deletePermission(permission.id)">Delete</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <!-- <button routerLink="/add-permission">Add Permission</button> -->
+              </div>
+              </div>
+            
+          </div>
+          
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+<div id="addFeature" class="hs-overlay hidden ti-modal">
+  <div class="hs-overlay-open:mt-7  ti-modal-box mt-0 ease-out">
+    <div class="ti-modal-content">
+      <div class="ti-modal-header">
+          <h6 class="modal-title text-[1rem] font-semibold">Add feature</h6>
+            <button type="button" class="hs-dropdown-toggle !text-[1rem] !font-semibold !text-defaulttextcolor" data-hs-overlay="#addFeature">
+              <span class="sr-only">Close</span>
+              <i class="ri-close-line"></i>
+            </button>
+      </div>
+      <div class="ti-modal-body px-4">
+        <form (ngSubmit)="addFeature()">
+          <label for="name">Name:</label>
+          <input class="form-control w-full !rounded-md" type="text" [(ngModel)]="feature.name" name="name" required />
+        
+          <label for="description">Description:</label>
+          <input class="form-control w-full !rounded-md"
+            type="text"
+            [(ngModel)]="feature.description"
+            name="description"
+            required
+          />
+        
+        </form>
+        
+      </div>
+      <div class="ti-modal-footer">
+          <button type="button"
+          class="hs-dropdown-toggle ti-btn  ti-btn-secondary-full align-middle"
+          data-hs-overlay="#addFeature
+          
+          ">
+          Close
+        </button>
+          <button type="button" class="ti-btn bg-primary text-white !font-medium">Save Changes</button>
+      </div>
     </div>
-    <!--End::row-1 -->
+  </div>
+</div>
+
+
+<div id="addPermission" class="hs-overlay hidden ti-modal">
+  <div class="hs-overlay-open:mt-7  ti-modal-box mt-0 ease-out">
+    <div class="ti-modal-content">
+      <div class="ti-modal-header">
+          <h6 class="modal-title text-[1rem] font-semibold">Permissions Definition</h6>
+            <button type="button" class="hs-dropdown-toggle !text-[1rem] !font-semibold !text-defaulttextcolor" data-hs-overlay="#addPermission">
+              <span class="sr-only">Close</span>
+              <i class="ri-close-line"></i>
+            </button>
+      </div>
+      <div class="ti-modal-body px-4">
+        <form (ngSubmit)="addPermission()">
+          <label for="realm" class="form-label">Feature</label>
+          <ng-select formControlName="realm" class="form-control w-full !rounded-md">
+            <ng-option *ngFor="let f of feat" [value]="f">{{f}}</ng-option>
+          </ng-select>
+          <br>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.create"
+                checked>
+            <label class="form-check-label" for="flexCheckChecked">
+                Create
+            </label>
+            </div>
+          
+        
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.update"
+                  checked>
+              <label class="form-check-label" for="flexCheckChecked">
+                  Update
+              </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.get"
+                    checked>
+                <label class="form-check-label" for="flexCheckChecked">
+                    Get
+                </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.delete"
+                      checked>
+                  <label class="form-check-label" for="flexCheckChecked">
+                      Delete
+                  </label>
+                  </div>
+       
+        </form>
+      </div>
+      <div class="ti-modal-footer">
+          <button type="button"
+          class="hs-dropdown-toggle ti-btn  ti-btn-secondary-full align-middle"
+          data-hs-overlay="#addPermission
+          
+          ">
+          Close
+        </button>
+          <button type="button" class="ti-btn bg-primary text-white !font-medium">Save</button>
+      </div>
+    </div>
+  </div>
 </div>
