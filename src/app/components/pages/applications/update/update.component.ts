@@ -1,10 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { SharedModule } from '../../../shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { environment } from '../../../../../environments/environment';
 import { OrganizationService } from '../../../services/organization.service';
 import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { ClientConfig } from '../client-config.model';
@@ -18,6 +17,7 @@ export interface Permission {
   update: boolean;
   get: boolean;
   delete: boolean;
+  appId: string
 }
 export interface Feature {
   id?: string;
@@ -44,38 +44,112 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   appId: any;
-  realm = "master"
-  permissions: Permission[] = [];
-  featureId: string = 'feature-id'; // Récupérer dynamiquement l'id de la fonctionnalité
-  feature: Feature = { appId: 'your-app-id', name: '', description: '' };
+  roles=["role 1", "role 2"]
+  realm = "master";
+  featureForm: FormGroup;
+  permissionForm: FormGroup;
+  permissions: any[] = [];
+  featureId: string = 'feature-id';
+  feature: Feature = { appId: '', name: '', description: '' };
   features: Feature[] = [];
   permission: Permission = {
     featureId: '',
     featureName: '',
+    appId: '',
     create: false,
     update: false,
     get: false,
     delete: false
   };
   feat = ["feature 1", "Feature 2"]
-
   featureName: string = '';
+  constructor(private featureService: FeatureService, private permissionService: PermissionService,  private router: Router,   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
+    this.createForm();
+  }
+  ngOnInit() {
+    
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.appId = params.get('id');
+      this.retrieveData();
+    });
+    this.retreiveRealmsList();
+    this.loadPermissions();
+    this.loadFeatures();
+    this.initFeatureForm();
+    this.initPermissionForm();
 
-  addPermission() {
-    this.permissionService.addPermission(this.permission).subscribe(() => {
-      // Redirige vers la liste des permissions de cette fonctionnalité
-      this.router.navigate([`/permissions/${this.featureId}`]);
+  }
+  initFeatureForm(): void {
+    this.featureForm = this.fb.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required]
     });
   }
-  loadFeatures() {
-    this.featureService.getFeatures(this.appId).subscribe((features) => {
-      this.features = features;
+  initPermissionForm(): void {
+    this.permissionForm = this.fb.group({
+      roleName: ['', Validators.required], 
+      permissions: this.fb.array([]) 
     });
+  
+ 
+  }
+
+  get permissionsArray(): FormArray {
+    return this.permissionForm.get('permissions') as FormArray;
+  }
+  addPermissions(): void {
+    this.features.forEach((feature) => {
+      this.permissionsArray.push(this.fb.group({
+        feature: [feature.name],  
+        create: [false],    
+        update: [false],   
+        get: [false],        
+        delete: [false]    
+      }));
+    });
+  }
+  get permissionsForm(): FormArray {
+    return this.permissionForm.get('permissions') as FormArray;
+  }
+
+  
+  addPermission() {
+    if (this.permissionForm.valid) {
+      const formData = this.permissionForm.value;
+      formData.appId= this.appId,
+      console.log(formData)
+      this.permissionService.addPermission(formData).subscribe(() => {
+        this.loadPermissions();
+        this.initPermissionForm();
+        this.addPermissions();
+      });
+      
+    }
+    
+  }
+
+  loadFeatures() {
+   
+    const sub = this.featureService.getFeatures(this.appId).subscribe(
+      response => {
+        this.features = response.data;
+        this.addPermissions();
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.subscription.add(sub);
   }
   addFeature() {
-    this.featureService.addFeature(this.feature).subscribe(() => {
-      this.router.navigate(['/features']);
-    });
+    if (this.featureForm.valid) {
+      this.feature= this.featureForm.value;
+      this.feature.appId=this.appId;
+      this.featureService.addFeature(this.feature).subscribe(() => {
+        this.loadFeatures();
+        this.initFeatureForm();
+      });
+    }
   }
   deleteFeature(id: string) {
     this.featureService.deleteFeature(id).subscribe(() => {
@@ -84,9 +158,15 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
   }
 
   loadPermissions() {
-    this.permissionService.getPermissions(this.featureId).subscribe((permissions) => {
-      this.permissions = permissions;
-    });
+    const sub = this.permissionService.getPermissions(this.appId).subscribe(
+      response => {
+        this.permissions = response.data;
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.subscription.add(sub);
   }
 
   deletePermission(id: string) {
@@ -94,18 +174,7 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
       this.loadPermissions();
     });
   }
-  constructor(private featureService: FeatureService, private permissionService: PermissionService,  private router: Router,   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
-    this.createForm();
-  }
-  ngOnInit() {
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.appId = params.get('id');
-      this.retrieveData();
-    });
-    this.retreiveRealmsList();
-    this.loadPermissions();
-    this.loadFeatures();
-  }
+
   retreiveRealmsList(){
     const sub = this.organisationservice.domainList().subscribe(
       response => {
@@ -164,7 +233,6 @@ retrieveData(){
   const sub = this.organisationservice.applicationDetail(this.appId).subscribe(
     response => {
       this.application = response.data;
-      console.log(this.application)
       this.createFormWithData(this.application);
       if(response.data === null){
         this.router.navigate(['/not-found']); 

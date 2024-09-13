@@ -158,21 +158,38 @@
                 <table class="table whitespace-nowrap min-w-full">
                   <thead>
                     <tr class="border-b border-defaultborder">
-                      <th>Feature</th>
-                      <th>Create</th>
-                      <th>Update</th>
-                      <th>Get</th>
-                      <th>Delete</th>
+                      <th>Role</th>
+                      <th>Permissions</th>
+                      
                       <th>Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr *ngFor="let permission of permissions" class="border-b border-defaultborder">
-                      <td>{{ permission.featureName }}</td>
-                      <td>{{ permission.create }}</td>
-                      <td>{{ permission.update }}</td>
-                      <td>{{ permission.get }}</td>
-                      <td>{{ permission.delete }}</td>
+                      <td>{{ permission.roleName }}</td>
+                      <td>
+                        <table class="table">
+                          <thead>
+                            <tr>
+                              <th>Feature</th>
+                              <th>Create</th>
+                              <th>Update</th>
+                              <th>Get</th>
+                              <th>Delete</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let p of permission.permissions; let i = index">
+                              <td>{{ p.featureName }}</td>
+                              <td><input type="checkbox" [checked]="p.create" disabled /></td>
+                              <td><input type="checkbox" [checked]="p.update" disabled /></td>
+                              <td><input type="checkbox" [checked]="p.get" disabled /></td>
+                              <td><input type="checkbox" [checked]="p.delete" disabled /></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                      
                       <td>
                         <button (click)="deletePermission(permission.id)">Delete</button>
                       </td>
@@ -195,39 +212,31 @@
 <div id="addFeature" class="hs-overlay hidden ti-modal">
   <div class="hs-overlay-open:mt-7  ti-modal-box mt-0 ease-out">
     <div class="ti-modal-content">
-      <div class="ti-modal-header">
+      <form [formGroup]="featureForm" (ngSubmit)="addFeature()">
+        <div class="ti-modal-header">
           <h6 class="modal-title text-[1rem] font-semibold">Add feature</h6>
-            <button type="button" class="hs-dropdown-toggle !text-[1rem] !font-semibold !text-defaulttextcolor" data-hs-overlay="#addFeature">
-              <span class="sr-only">Close</span>
-              <i class="ri-close-line"></i>
-            </button>
-      </div>
-      <div class="ti-modal-body px-4">
-        <form (ngSubmit)="addFeature()">
+          <button type="button" class="hs-dropdown-toggle !text-[1rem] !font-semibold !text-defaulttextcolor" data-hs-overlay="#addFeature">
+            <span class="sr-only">Close</span>
+            <i class="ri-close-line"></i>
+          </button>
+        </div>
+      
+        <div class="ti-modal-body px-4">
           <label for="name">Name:</label>
-          <input class="form-control w-full !rounded-md" type="text" [(ngModel)]="feature.name" name="name" required />
-        
+          <input class="form-control w-full !rounded-md" type="text" formControlName="name" required />
+      
           <label for="description">Description:</label>
-          <input class="form-control w-full !rounded-md"
-            type="text"
-            [(ngModel)]="feature.description"
-            name="description"
-            required
-          />
-        
-        </form>
-        
-      </div>
-      <div class="ti-modal-footer">
-          <button type="button"
-          class="hs-dropdown-toggle ti-btn  ti-btn-secondary-full align-middle"
-          data-hs-overlay="#addFeature
-          
-          ">
-          Close
-        </button>
-          <button type="button" class="ti-btn bg-primary text-white !font-medium">Save Changes</button>
-      </div>
+          <input class="form-control w-full !rounded-md" type="text" formControlName="description" required />
+        </div>
+      
+        <div class="ti-modal-footer">
+          <button type="button" class="hs-dropdown-toggle ti-btn ti-btn-secondary-full align-middle" data-hs-overlay="#addFeature">
+            Close
+          </button>
+          <button type="submit" class="ti-btn bg-primary text-white !font-medium" [disabled]="featureForm.invalid" data-hs-overlay="#addFeature">Save</button>
+        </div>
+      </form>
+      
     </div>
   </div>
 </div>
@@ -236,63 +245,59 @@
 <div id="addPermission" class="hs-overlay hidden ti-modal">
   <div class="hs-overlay-open:mt-7  ti-modal-box mt-0 ease-out">
     <div class="ti-modal-content">
-      <div class="ti-modal-header">
-          <h6 class="modal-title text-[1rem] font-semibold">Permissions Definition</h6>
-            <button type="button" class="hs-dropdown-toggle !text-[1rem] !font-semibold !text-defaulttextcolor" data-hs-overlay="#addPermission">
-              <span class="sr-only">Close</span>
-              <i class="ri-close-line"></i>
-            </button>
-      </div>
-      <div class="ti-modal-body px-4">
-        <form (ngSubmit)="addPermission()">
-          <label for="realm" class="form-label">Feature</label>
-          <ng-select formControlName="realm" class="form-control w-full !rounded-md">
-            <ng-option *ngFor="let f of feat" [value]="f">{{f}}</ng-option>
-          </ng-select>
+      <form [formGroup]="permissionForm" (ngSubmit)="addPermission()">
+        <div class="ti-modal-header">
+          <h6 class="modal-title text-[1rem] font-semibold">Role Permissions Definition</h6>
+        </div>
+      
+        <div class="ti-modal-body px-4">
+          <!-- Dropdown pour sélectionner le rôle -->
+          <label for="role" class="form-label">Role</label>
+          <select formControlName="roleName" class="form-control w-full !rounded-md">
+            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+          </select>
+      
           <br>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.create"
-                checked>
-            <label class="form-check-label" for="flexCheckChecked">
-                Create
-            </label>
-            </div>
-          
-        
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.update"
-                  checked>
-              <label class="form-check-label" for="flexCheckChecked">
-                  Update
-              </label>
-              </div>
+      
+          <!-- Boucle pour chaque feature et ses permissions -->
+          <div formArrayName="permissions">
+            <div *ngFor="let permission of permissionsArray.controls; let i = index" [formGroupName]="i">
+              <h5>{{ permission.get('feature').value }}</h5>
+      
               <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.get"
-                    checked>
-                <label class="form-check-label" for="flexCheckChecked">
-                    Get
-                </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" [(ngModel)]="permission.delete"
-                      checked>
-                  <label class="form-check-label" for="flexCheckChecked">
-                      Delete
-                  </label>
-                  </div>
-       
-        </form>
-      </div>
-      <div class="ti-modal-footer">
-          <button type="button"
-          class="hs-dropdown-toggle ti-btn  ti-btn-secondary-full align-middle"
-          data-hs-overlay="#addPermission
-          
-          ">
-          Close
-        </button>
-          <button type="button" class="ti-btn bg-primary text-white !font-medium">Save</button>
-      </div>
+                <input class="form-check-input" type="checkbox" formControlName="create">
+                <label class="form-check-label">Create</label>
+              </div>
+      
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="update">
+                <label class="form-check-label">Update</label>
+              </div>
+      
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="get">
+                <label class="form-check-label">Get</label>
+              </div>
+      
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" formControlName="delete">
+                <label class="form-check-label">Delete</label>
+              </div>
+      
+              <hr>
+            </div>
+          </div>
+        </div>
+      
+        <div class="ti-modal-footer">
+          <button type="submit" class="ti-btn bg-primary text-white !font-medium" data-hs-overlay="#addPermission">
+            Save
+          </button>
+        </div>
+      </form>
+      
+      
+      
     </div>
   </div>
 </div>
