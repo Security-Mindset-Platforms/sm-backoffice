@@ -80,6 +80,10 @@ export class OrganizationService {
     return this.httpClient.get(EndPoints.LICENCE_URI+"/invalid",  this.options);
   }
 
+  sendInvitation(data: any): Observable<any>{
+    return this.httpClient.post(EndPoints.INVITATION_URI, data,  this.options);
+  }
+
   // user
   allUserList(): Observable<any>{
     return this.httpClient.get(EndPoints.USER_URI,  this.options);

@@ -9,6 +9,7 @@ import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router'
 import { ClientConfig } from '../client-config.model';
 import { PermissionService } from '../services/permission.service';
 import { FeatureService } from '../services/feature.service';
+import { RoleService } from '../services/roles.services';
 export interface Permission {
   id?: string;
   featureId: string;
@@ -44,14 +45,14 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   appId: any;
-  roles=["role 1", "role 2"]
+  roles=[]
   realm = "master";
   featureForm: FormGroup;
   permissionForm: FormGroup;
   permissions: any[] = [];
   featureId: string = 'feature-id';
   feature: Feature = { appId: '', name: '', description: '' };
-  features: Feature[] = [];
+  features: any[] = [];
   permission: Permission = {
     featureId: '',
     featureName: '',
@@ -63,7 +64,7 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
   };
   feat = ["feature 1", "Feature 2"]
   featureName: string = '';
-  constructor(private featureService: FeatureService, private permissionService: PermissionService,  private router: Router,   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
+  constructor(private roleService: RoleService, private featureService: FeatureService, private permissionService: PermissionService,  private router: Router,   private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }
   ngOnInit() {
@@ -77,7 +78,7 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
     this.loadFeatures();
     this.initFeatureForm();
     this.initPermissionForm();
-
+    this.loadRoles();
   }
   initFeatureForm(): void {
     this.featureForm = this.fb.group({
@@ -90,8 +91,6 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
       roleName: ['', Validators.required], 
       permissions: this.fb.array([]) 
     });
-  
- 
   }
 
   get permissionsArray(): FormArray {
@@ -100,7 +99,7 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
   addPermissions(): void {
     this.features.forEach((feature) => {
       this.permissionsArray.push(this.fb.group({
-        feature: [feature.name],  
+        featureName: [feature.name],  
         create: [false],    
         update: [false],   
         get: [false],        
@@ -128,8 +127,18 @@ export class ApplicationUpdateComponent implements OnInit, OnDestroy {
     
   }
 
+  loadRoles() {
+    const sub = this.roleService.gerRoles(this.appId).subscribe(
+      response => {
+        this.roles = response.data.roles;
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.subscription.add(sub);
+  }
   loadFeatures() {
-   
     const sub = this.featureService.getFeatures(this.appId).subscribe(
       response => {
         this.features = response.data;

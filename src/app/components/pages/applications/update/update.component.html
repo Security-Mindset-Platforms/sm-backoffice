@@ -169,9 +169,9 @@
                       <td>{{ permission.roleName }}</td>
                       <td>
                         <table class="table">
-                          <thead>
+                          <thead >
                             <tr>
-                              <th>Feature</th>
+                              <th  style="width: 1000px;">Feature</th>
                               <th>Create</th>
                               <th>Update</th>
                               <th>Get</th>
@@ -180,7 +180,7 @@
                           </thead>
                           <tbody>
                             <tr *ngFor="let p of permission.permissions; let i = index">
-                              <td>{{ p.featureName }}</td>
+                              <td style="width: 1000px;">{{ p.featureName }}</td>
                               <td><input type="checkbox" [checked]="p.create" disabled /></td>
                               <td><input type="checkbox" [checked]="p.update" disabled /></td>
                               <td><input type="checkbox" [checked]="p.get" disabled /></td>
@@ -254,7 +254,7 @@
           <!-- Dropdown pour sélectionner le rôle -->
           <label for="role" class="form-label">Role</label>
           <select formControlName="roleName" class="form-control w-full !rounded-md">
-            <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+            <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
           </select>
       
           <br>
@@ -262,7 +262,7 @@
           <!-- Boucle pour chaque feature et ses permissions -->
           <div formArrayName="permissions">
             <div *ngFor="let permission of permissionsArray.controls; let i = index" [formGroupName]="i">
-              <h5>{{ permission.get('feature').value }}</h5>
+              <h5>{{ permission.get('featureName').value }}</h5>
       
               <div class="form-check">
                 <input class="form-check-input" type="checkbox" formControlName="create">

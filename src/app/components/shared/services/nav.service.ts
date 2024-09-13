@@ -90,7 +90,7 @@ export class NavService implements OnDestroy {
   MENUITEMS: Menu[] = [
     // Dashboard
     {
-      headTitle: 'Security Hub',
+      headTitle: 'SM Backoffice',
     },
     {
       title: 'Dashboard',

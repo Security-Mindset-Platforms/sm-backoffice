@@ -1,4 +1,7 @@
 <app-page-header [title]="'Organization details'" [activeTitle]="'Home'" [title1]="'Organizations'"></app-page-header>
+<div class="alert alert-success" role="alert" *ngIf="showMessage">
+ {{message}}
+ </div>
 <div class="container">
    <!-- Start::row-1 -->
    <div class="grid grid-cols-12 gap-6 mb-[3rem]">
@@ -107,6 +110,7 @@
                                                    aria-label=".form-control-sm example">
                                              </div>
                                              <div class="hs-dropdown ti-dropdown">
+                                               
                                                 <a href="javascript:void(0);"
                                                    class="ti-btn ti-btn-primary !bg-primary !text-white !py-1 !px-2 !text-[0.75rem] !m-0 !gap-0 !font-medium"
                                                    aria-expanded="false">
@@ -114,6 +118,12 @@
                                                 </a>
                                                 <ul class="hs-dropdown-menu ti-dropdown-menu hidden" role="menu">
                                                 </ul>
+
+                                                <a href="javascript:void(0);" data-hs-overlay="#addInvitation" 
+                                                class="ti-btn ti-btn-primary !bg-primary !text-white !py-1 !px-2 !text-[0.75rem] !m-0 !gap-0 !font-medium"
+                                                aria-expanded="false">
+                                             Invite user<i class="fa fa-user align-middle ms-1 inline-block"></i>
+                                             </a>
                                              </div>
                                           </div>
                                        </div>
@@ -203,3 +213,44 @@
    </div>
    <!--End::row-1 -->
 </div>
+
+
+
+
+<div id="addInvitation" class="hs-overlay hidden ti-modal">
+   <div class="hs-overlay-open:mt-7  ti-modal-box mt-0 ease-out">
+     <div class="ti-modal-content">
+       <form [formGroup]="invitationForm" (ngSubmit)="addInvitation()">
+         <div class="ti-modal-header">
+           <h6 class="modal-title text-[1rem] font-semibold">User invitation</h6>
+         </div>
+       
+         <div class="ti-modal-body px-4">
+            <div class="xl:col-span-12 col-span-12">
+               <label for="Email" class="form-label">Email</label>
+               <input formControlName="email" type="text" class="form-control w-full !rounded-md" id="photos" placeholder=" Email" required>
+             </div>
+           <label for="role" class="form-label">Application</label>
+           <select (change)="onApplicationChange($event)" formControlName="applicationId" class="form-control w-full !rounded-md">
+             <option *ngFor="let a of applications" [value]="a.keycloakId">{{ a.name }}</option>
+           </select>
+           <br>
+           <label for="role" class="form-label">Role</label>
+           <select formControlName="role" class="form-control w-full !rounded-md">
+             <option *ngFor="let role of roles" [ngValue]="role">{{ role.name }}</option>
+           </select>
+      
+         </div>
+       
+         <div class="ti-modal-footer">
+           <button type="submit" class="ti-btn bg-primary text-white !font-medium" data-hs-overlay="#addInvitation">
+             Send invitation
+           </button>
+         </div>
+       </form>
+       
+       
+       
+     </div>
+   </div>
+ </div>

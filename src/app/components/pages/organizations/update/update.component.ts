@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { OrganizationService } from '../../../services/organization.service';
 import { ActivatedRoute, ParamMap, Router, RouterModule } from '@angular/router';
 import { AuthInfo, AuthService } from '../../../services/auth.service';
+import { RoleService } from '../../applications/services/roles.services';
 @Component({
   selector: 'app-organization-update',
   standalone: true,
@@ -20,20 +21,23 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
     licences: [],
     users: []
   }
+  roles = []
   token: string;
+  applications= [];
   showToken=false;
   realms: any[]=[''];
   message: string;
   success=false;
   error = false;
   isLoading = false;
-
+  invitationForm: FormGroup;
   private subscription: Subscription = new Subscription();
   userForm: FormGroup;
   authInfo: AuthInfo | undefined;
   organizationId: any;
+  showMessage=false;
   realm = "security-mindset"
-  constructor(private authService: AuthService,  private router: Router,  private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
+  constructor(private roleService: RoleService, private authService: AuthService,  private router: Router,  private route: ActivatedRoute, public organisationservice: OrganizationService, private fb: FormBuilder,) {
     this.createForm();
   }
   ngOnInit() {
@@ -41,7 +45,75 @@ export class OrganizationUpdateComponent implements OnInit, OnDestroy {
       this.organizationId = params.get('id');
       this.authInfo = await this.authService.getAuthInfo();
       this.retrieveData();
-      this.loginCli();
+
+      this.loadApplications();
+      this.initInvitationForm();
+    });
+  }
+  addInvitation() {
+    if (this.invitationForm.valid) {
+      const data = {
+        "organizationId": this.organizationId,
+         "email":  this.invitationForm.get('email')?.value,
+         "clientId":  this.invitationForm.get('applicationId')?.value,
+         "realm": this.realm,
+          "groupes": [
+           {
+            id:  this.invitationForm.get('role')?.value.id,
+            name:  this.invitationForm.get('role')?.value.name,
+           }
+          ]
+      }
+      const sub = this.organisationservice.sendInvitation(data).subscribe(
+        response => {
+          if(response.code===200){
+            this.initInvitationForm();
+            this.showMessage=true;
+            this.message=response.message;
+          }
+        },
+        error => {
+          console.error('Error fetching data', error);
+        }
+      );
+      this.subscription.add(sub);
+     
+      
+    }
+  }
+  loadRoles(appId) {
+    const sub = this.roleService.gerRoles(appId).subscribe(
+      response => {
+        this.roles = response.data.roles;
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.subscription.add(sub);
+  }
+  onApplicationChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const selectedApp = selectElement.value;
+    this.roles=[]
+    this.loadRoles(selectedApp);
+  }
+  loadApplications() {
+    const sub = this.roleService.getApplications(this.realm).subscribe(
+      response => {
+        this.applications = response.data;
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+    this.subscription.add(sub);
+  }
+  initInvitationForm(): void {
+    this.invitationForm = this.fb.group({
+      role: ['', Validators.required], 
+      applicationId: ['', Validators.required], 
+      email: ['', Validators.required], 
     });
   }
 
@@ -105,7 +177,6 @@ retrieveData(){
 loginCli(){
   const sub = this.organisationservice.loginCli("hhh").subscribe(
     response => {
-      console.log(response.data)
     },
     error => {
       //this.router.navigate(['/not-found']);

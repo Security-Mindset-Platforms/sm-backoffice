@@ -15,4 +15,7 @@ export class EndPoints {
     public static USER_URI = environment.urlAPi+ EndPoints.BASE_URI +"users";
     
     public static STAT_URI = environment.urlAPi+ EndPoints.BASE_URI +"stats";
+
+    // invitation
+    public static INVITATION_URI = environment.urlAPi+ EndPoints.BASE_URI +"invitation/send";
 }
