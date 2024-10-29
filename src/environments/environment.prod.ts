@@ -5,6 +5,6 @@ export const environment = {
   keycloak: {
     realm: 'security-mindset',
     clientId: 'sm-backoffice',
-    url: 'https://connect.security-mindset.fr/'
+    url: 'https://connect.security-hub.io/'
 }
 };

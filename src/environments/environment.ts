@@ -8,7 +8,7 @@ export const environment = {
     realm: 'security-mindset',
     clientId: 'sm-backoffice',
     // clientId: 'angular',
-    url: 'https://connect.security-mindset.fr/'
+    url: 'https://connect.security-hub.io/'
 },
 
 };
