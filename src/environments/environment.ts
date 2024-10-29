@@ -1,7 +1,7 @@
 export const environment = {
   production: false,
   secretKey: "",
-  urlAPi: "https://api-keycloak.security-mindset.fr",
+  urlAPi: "https://api-keycloak.security-hub.io",
   // urlAPi: "http://127.0.0.1:8445",
   apiKey: "linsan",
   keycloak: {
